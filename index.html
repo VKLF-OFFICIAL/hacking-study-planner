@@ -1,0 +1,2860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>eJPT Study Planner — VKLF</title>
+<meta name="description" content="Plan de estudio para la certificación eJPT: máquinas de HackTheBox, VulnHub y labs seleccionados para preparar el examen.">
+<meta name="theme-color" content="#05070b">
+<meta property="og:title" content="eJPT Study Planner">
+<meta property="og:description" content="Plan de estudio orientado a la certificación eJPT con máquinas de HackTheBox, VulnHub y PortSwigger.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #05070b;
+    --bg2: #0a0a0a;
+    --bg3: #11141a;
+    --bg4: #111111;
+    --card: #0a0a0a;
+    --card-border: #2d0000;
+    --card-border-hover: #ff4d4d;
+    --red: #ff4d4d;
+    --red-dim: #cc0000;
+    --red-dark: #8b0000;
+    --red-border: #4d0000;
+    --green: #00d084;
+    --yellow: #fcb900;
+    --orange: #ff4d4d;
+    --text: #ffffff;
+    --text-dim: #cccccc;
+    --text-muted: #888888;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --content-max: 1280px;
+    --header-h: 110px;
+    --tabs-h: 48px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #05070b;
+    background-image: linear-gradient(#2b0b11 1px, transparent 1px), linear-gradient(90deg, #2b0b11 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Header (base, overridden by web styles below) */
+  .header {
+    background: linear-gradient(180deg, rgba(8,2,2,.96), rgba(3,1,1,.9));
+    border-bottom: 1px solid rgba(255,43,43,.4);
+    box-shadow: 0 0 22px rgba(215,0,0,.28), 0 8px 30px rgba(0,0,0,.7);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .logo span {
+    color: var(--red);
+    text-shadow: 0 0 14px rgba(255,77,77,0.6);
+  }
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-left: auto;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 22px;
+    color: var(--red);
+    display: block;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255,77,77,0.4);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Tabs */
+  .tabs-bar {
+    background: rgba(0,0,0,0.8);
+    border-bottom: 1px solid rgba(255,43,43,.2);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    text-transform: uppercase;
+  }
+  .tab-btn:hover { color: var(--text); background: rgba(255,0,0,0.05); }
+  .tab-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+    text-shadow: 0 0 8px rgba(255,77,77,0.5);
+  }
+  .tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,0,0,0.1);
+    color: var(--text-muted);
+    border: 1px solid var(--red-border);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 1px 7px;
+    margin-left: 6px;
+  }
+  .tab-btn.active .tab-badge {
+    background: rgba(255,0,0,0.2);
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .tab-btn.tab-soon {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .tab-btn.tab-soon:hover { background: none; color: var(--text-muted); }
+  .tab-soon-badge {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border: 1px solid var(--red-border);
+    border-radius: 4px;
+    padding: 1px 4px;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  /* Tab progress bar */
+  .tab-progress {
+    height: 3px;
+    background: #0a0a0a;
+    border-radius: 0;
+  }
+  .tab-progress-bar {
+    height: 100%;
+    background: var(--red-dim);
+    transition: width 0.5s ease;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 8px rgba(204,0,0,0.5);
+  }
+
+  /* Controls */
+  .controls {
+    background: rgba(0,0,0,0.6);
+    border-bottom: 1px solid rgba(255,43,43,.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .controls-search-row {
+    padding: 10px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+  }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    background: #000000;
+    border: 1px solid var(--red-border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 12px 9px 34px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 8px rgba(255,77,77,0.3);
+  }
+  .search-input::placeholder { color: var(--text-muted); }
+
+  /* Filter toggle button */
+  .btn-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--red-border);
+    background: #000;
+    color: var(--text-muted);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    position: relative;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-filter-toggle:hover { border-color: var(--red); color: var(--text); }
+  .btn-filter-toggle:focus { outline: none; }
+  .btn-filter-toggle:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .btn-filter-toggle:active { transform: scale(0.97); }
+  .btn-filter-toggle.has-active {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(255,0,0,0.1);
+    box-shadow: 0 0 8px rgba(255,77,77,0.2);
+  }
+  .filter-active-count {
+    background: var(--red);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* Filter panel (collapsible) */
+  .filters-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.28s ease, padding 0.28s ease;
+    padding: 0 20px;
+  }
+  .filters-panel.open {
+    max-height: 400px;
+    padding: 10px 20px 14px;
+    border-top: 1px solid rgba(255,43,43,.1);
+  }
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .filter-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+  .chip {
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--red-border);
+    background: #000000;
+    color: var(--text-dim);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .chip:hover {
+    border-color: var(--red);
+    color: var(--text);
+    background: rgba(255,0,0,0.08);
+  }
+  .chip.active {
+    background: rgba(255,0,0,0.15);
+    border-color: var(--red);
+    color: var(--red);
+    box-shadow: 0 0 8px rgba(255,77,77,0.2);
+  }
+  .chip-clear {
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.15s;
+    text-transform: uppercase;
+  }
+  .chip-clear:hover { color: var(--red); }
+
+  /* Grid */
+  .grid-container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  /* Cards */
+  .card {
+    background: #0a0a0a;
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--card-border);
+    border-radius: 4px;
+    padding: 16px;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-actions { margin-top: auto; padding-top: 4px; }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--red-border), transparent);
+    transition: background 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(255,77,77,0.5);
+    border-left-color: rgba(255,77,77,0.7);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,0,0,0.15), 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .card:hover::before {
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+  /* Difficulty left border colors */
+  .card.diff-facil,   .card.diff-easy,     .card.diff-veryeasy { border-left-color: #00d084; }
+  .card.diff-media,   .card.diff-medium                         { border-left-color: #fcb900; }
+  .card.diff-dificil, .card.diff-hard                           { border-left-color: #ff4d4d; }
+  .card.diff-insane                                              { border-left-color: #8b0000; }
+
+  .card.resolved {
+    border-color: rgba(0,208,132,0.2);
+    border-left-color: rgba(0,208,132,0.5);
+    opacity: 0.62;
+  }
+  .card.resolved:hover { opacity: 1; }
+  .card.resolved::before {
+    background: linear-gradient(90deg, transparent, rgba(0,208,132,0.4), transparent);
+  }
+
+  /* Card header */
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .card.resolved .card-title { color: var(--green); }
+
+  /* Difficulty badges */
+  .badge-diff {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .diff-facil    { background: rgba(0,208,132,0.15);  color: #00d084; border: 1px solid rgba(0,208,132,0.4); }
+  .diff-media    { background: rgba(252,185,0,0.15);   color: #fcb900; border: 1px solid rgba(252,185,0,0.4); }
+  .diff-dificil  { background: rgba(255,77,77,0.15);   color: #ff4d4d; border: 1px solid rgba(255,77,77,0.4); }
+  .diff-insane   { background: rgba(139,0,0,0.2);      color: #c0392b; border: 1px solid rgba(139,0,0,0.5); }
+  .diff-veryeasy { background: rgba(0,208,132,0.1);    color: #00d084; border: 1px solid rgba(0,208,132,0.3); }
+  .diff-easy     { background: rgba(0,208,132,0.12);   color: #00d084; border: 1px solid rgba(0,208,132,0.3); }
+  .diff-medium   { background: rgba(252,185,0,0.12);   color: #fcb900; border: 1px solid rgba(252,185,0,0.3); }
+  .diff-hard     { background: rgba(255,77,77,0.12);   color: #ff4d4d; border: 1px solid rgba(255,77,77,0.3); }
+  .diff-unknown  { background: rgba(136,136,136,0.12); color: #888;    border: 1px solid rgba(136,136,136,0.3); }
+
+  /* OS row */
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .os-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .os-icon { font-size: 13px; }
+  .card-ip {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    font-family: monospace;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 6px 0 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .tag {
+    background: rgba(255,0,0,0.1);
+    border: 1px solid rgba(255,77,77,0.3);
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.2px;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.6;
+  }
+  .tag:hover {
+    border-color: var(--red);
+    background: rgba(255,0,0,0.18);
+  }
+  .tag.cert {
+    background: rgba(255,0,0,0.08);
+    border-color: rgba(255,77,77,0.25);
+    color: #ff8080;
+  }
+  .tag.cert:hover {
+    border-color: var(--red);
+    background: rgba(255,0,0,0.15);
+  }
+
+  /* Card actions */
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  /* Resolver = acción primaria (filled) */
+  .btn-resolve {
+    background-color: rgba(180,0,0,0.85);
+    border-color: var(--red);
+    color: #fff;
+    font-weight: 700;
+  }
+  .btn-resolve:hover {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    box-shadow: 0 0 16px rgba(255,0,0,0.5);
+    transform: translateY(-1px);
+  }
+  .btn-resolve.done {
+    background-color: rgba(0,208,132,0.18);
+    border-color: rgba(0,208,132,0.55);
+    color: var(--green);
+    font-weight: 600;
+  }
+  .btn-resolve.done:hover {
+    background-color: rgba(0,208,132,0.28);
+    border-color: var(--green);
+    box-shadow: 0 0 12px rgba(0,208,132,0.3);
+    transform: translateY(-1px);
+  }
+  /* Writeup / Descargar = acciones secundarias */
+  .btn-writeup {
+    background-color: transparent;
+    border-color: var(--red-border);
+    color: var(--text-muted);
+  }
+  .btn-writeup:hover {
+    background-color: rgba(255,77,77,0.08);
+    border-color: rgba(255,77,77,0.4);
+    color: var(--text-dim);
+    transform: translateY(-1px);
+  }
+  .btn-lab {
+    background-color: #000000;
+    border-color: var(--red-border);
+    color: var(--text-muted);
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .btn-lab:hover {
+    background-color: rgba(255,77,77,0.08);
+    border-color: var(--red);
+    color: var(--red);
+    transform: translateY(-2px);
+  }
+
+  /* Labs list (PortSwigger) */
+  .labs-list {
+    margin: 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .lab-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .lab-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+    box-shadow: 0 0 4px rgba(255,77,77,0.5);
+  }
+  .lab-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s;
+    cursor: pointer;
+  }
+  .lab-link:hover { color: var(--red); }
+
+  /* Divider */
+  .section-divider {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 4px 0 6px;
+    font-weight: 600;
+  }
+
+  /* Empty state */
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state-text { font-size: 16px; }
+
+  /* Tab panel */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Loading */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    font-family: var(--sans);
+    color: var(--red);
+    font-size: 18px;
+    font-weight: 600;
+    gap: 10px;
+  }
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid var(--red-border);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Tooltip */
+  [title] { cursor: help; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #000000; }
+  ::-webkit-scrollbar-thumb { background: var(--red-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--red-dim); }
+
+  /* ===== WEB LAYOUT ===== */
+  .bottom-nav { display: none; }
+  body { padding-bottom: 0; }
+
+  /* ── HEADER ── */
+  .header-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 300;
+    background: rgba(5,7,11,0.97);
+    border-bottom: 1px solid rgba(255,43,43,.3);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.7), 0 0 40px rgba(200,0,0,.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .header {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: clamp(10px, 2vw, 16px) clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(6px, 1.5vw, 10px);
+    background: none;
+    border: none;
+    box-shadow: none;
+    position: static;
+  }
+  .logo {
+    font-size: clamp(15px, 4.5vw, 22px);
+    letter-spacing: clamp(1px, 0.8vw, 3px);
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .header-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(5px, 1.5vw, 10px);
+    flex-wrap: nowrap;
+  }
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: clamp(4px, 1vw, 6px);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: clamp(4px, 1vw, 7px) clamp(8px, 2vw, 14px);
+    white-space: nowrap;
+  }
+  .stat-num {
+    font-size: clamp(12px, 3vw, 16px);
+    font-weight: 700;
+    display: inline;
+  }
+  .stat-label {
+    font-size: clamp(9px, 2vw, 11px);
+    font-weight: 500;
+    letter-spacing: clamp(0px, 0.2vw, 0.5px);
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* ── TABS BAR ── */
+  .tabs-bar { display: flex; }
+  .tabs-bar-wrap {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 200;
+    background: rgba(8,4,4,0.95);
+    border-bottom: 1px solid rgba(255,43,43,.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .tabs-bar {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 32px;
+    height: var(--tabs-h);
+    align-items: stretch;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 0 20px;
+    height: 100%;
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tab-btn:hover { background: rgba(255,0,0,0.04); }
+
+  /* ── CONTROLS ── */
+  .controls {
+    position: sticky;
+    top: calc(var(--header-h) + var(--tabs-h));
+    z-index: 100;
+  }
+  .controls-search-row { padding: 10px 0; gap: 12px; }
+  .controls-inner {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .filters-panel { padding: 0; }
+  .filters-panel.open { padding: 0 0 14px; }
+
+  /* ── NAV BADGE ── */
+  .nav-btn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,0,0,0.15);
+    color: var(--red);
+    border: 1px solid rgba(255,77,77,0.3);
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    line-height: 1.4;
+  }
+  .tab-btn.active .nav-btn-badge { background: rgba(255,0,0,0.25); border-color: var(--red); }
+
+  /* ── CONTENT ── */
+  .tab-panel { max-width: var(--content-max); margin: 0 auto; }
+  .grid-container {
+    padding: clamp(20px, 3vw, 40px) clamp(16px, 3vw, 32px) clamp(20px, 2vw, 32px);
+    gap: clamp(12px, 1.5vw, 20px);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  }
+
+  /* ── CARDS (web) ── */
+  .card { border-radius: 8px; }
+  .card-title { font-size: clamp(14px, 1.5vw, 16px); }
+
+  /* ═══════════════════════════════════════════════════════════
+     RESPONSIVE — Mobile-first refinements with modern standards
+     Breakpoints: 480px · 768px · 1024px · 1440px
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ── Large desktop (≥1440px) ── */
+  @media (min-width: 1440px) {
+    .grid-container {
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+  }
+
+  /* ── Tablet landscape / small desktop (≤1023px) ── */
+  @media (max-width: 1023px) {
+    .header, .tabs-bar, .controls-inner { padding-left: 24px; padding-right: 24px; }
+    .grid-container { padding-left: 24px; padding-right: 24px; }
+  }
+
+  /* ── Tablet portrait & below (≤768px) ── */
+  @media (max-width: 768px) {
+    :root { --tabs-h: 44px; }
+    .tabs-bar { padding: 0 8px; }
+    .tab-btn { padding: 0 12px; font-size: 12px; gap: 6px; letter-spacing: 0.3px; min-height: 44px; }
+    .grid-container { gap: 14px; }
+    .controls-search-row { gap: 10px; }
+    /* Touch-friendly targets — WCAG minimum */
+    .btn, .btn-filter-toggle { min-height: 40px; }
+    .search-input { min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
+    .chip { padding: 6px 12px; min-height: 32px; display: inline-flex; align-items: center; }
+  }
+
+  /* ── Mobile (≤640px) ── */
+  @media (max-width: 640px) {
+    .grid-container { grid-template-columns: 1fr; padding: 16px 14px 24px; gap: 12px; }
+    .header, .tabs-bar, .controls-inner { padding-left: 14px; padding-right: 14px; }
+    .card { padding: 14px; }
+    .card-actions { flex-direction: row; gap: 8px; }
+    .card-actions .btn { flex: 1; justify-content: center; }
+  }
+
+  /* ── Ultra-narrow phones (≤380px) ── */
+  @media (max-width: 380px) {
+    .stat-item { padding: 5px 8px; gap: 4px; }
+    .stat-label { font-size: 9px; }
+    .header, .tabs-bar, .controls-inner { padding-left: 10px; padding-right: 10px; }
+    .grid-container { padding-left: 10px; padding-right: 10px; }
+  }
+
+  /* ── Landscape phones: reduce sticky header impact ── */
+  @media (max-height: 480px) and (orientation: landscape) {
+    .header { padding-top: 6px; padding-bottom: 6px; }
+    .logo { font-size: 14px; }
+    .header-stats { gap: 5px; }
+    .stat-item { padding: 3px 8px; }
+  }
+
+  /* ── Accessibility: respect reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ── Keyboard-only focus outlines ── */
+  .btn:focus-visible,
+  .tab-btn:focus-visible,
+  .chip:focus-visible,
+  .search-input:focus-visible,
+  #back-to-top:focus-visible {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+  }
+
+  /* ── Safe area insets (iOS notch / Android nav bar) ── */
+  body {
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* ── BACK TO TOP ── */
+  #back-to-top {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: calc(20px + env(safe-area-inset-right, 0px));
+    z-index: 500;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(180,0,0,0.85);
+    border: 1px solid var(--red);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(255,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    transform: translateY(8px);
+  }
+  #back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  #back-to-top:hover { background: var(--red); }
+
+  /* ===== ROADMAP (hackingvault-style, red theme) ===== */
+  .rm2-wrap { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* Header row */
+  .rm2-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+  }
+  .rm2-header-left {}
+  .rm2-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 2px;
+    font-family: monospace;
+    text-shadow: 0 0 18px rgba(255,77,77,0.45);
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+  .rm2-sub { color: var(--text-muted); font-size: 13px; font-family: monospace; }
+  .rm2-btn-back {
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #222;
+    color: var(--text-dim);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .rm2-btn-back:hover { border-color: var(--red); color: var(--red); background: rgba(255,0,0,0.08); }
+
+  /* Cert selector */
+  .rm2-cert-selector { margin-bottom: 24px; }
+  .rm2-cert-selector-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .rm2-cert-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .rm2-cert-count { font-size: 12px; color: var(--text-muted); }
+  .rm2-cert-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .rm2-cert-btn {
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background: #1a1a1a;
+    color: var(--text-muted);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .rm2-cert-btn:hover { border-color: var(--red); color: var(--text); background: rgba(255,0,0,0.07); }
+  .rm2-cert-btn.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255,77,77,0.35);
+  }
+
+  /* Progress section */
+  .rm2-progress-section { margin-bottom: 18px; }
+  .rm2-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+  .rm2-progress-left { font-size: 14px; color: var(--text-muted); }
+  .rm2-progress-nums { font-size: 14px; font-weight: 700; color: var(--red); }
+  .rm2-btn-refresh {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 18px; border-radius: 4px; border: none;
+    background: linear-gradient(135deg, #5b21b6, #7c3aed);
+    color: #fff; font-family: var(--sans); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+    position: relative;
+    white-space: nowrap;
+  }
+  .rm2-btn-refresh:hover { filter: brightness(1.15); box-shadow: 0 0 16px rgba(124,58,237,0.5); transform: translateY(-1px); }
+  .rm2-refresh-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #facc15;
+    box-shadow: 0 0 6px #facc15;
+    animation: rm2pulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes rm2pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.75); }
+  }
+  .rm2-progress-track { height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden; border: 1px solid #2a0000; }
+  .rm2-progress-fill { height: 100%; background: linear-gradient(90deg, var(--red-dim), var(--red)); border-radius: 4px; transition: width 0.6s ease; box-shadow: 0 0 8px rgba(255,77,77,0.4); }
+
+  /* Info buttons row */
+  .rm2-info-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .rm2-btn-sobre {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 4px;
+    border: 1px solid #1e3a5f;
+    background: transparent;
+    color: #60a5fa;
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+  }
+  .rm2-btn-sobre:hover { background: rgba(96,165,250,0.1); border-color: #60a5fa; box-shadow: 0 0 10px rgba(96,165,250,0.2); }
+  .rm2-btn-tips {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; border-radius: 4px;
+    border: 1px solid #3b1f5e;
+    background: transparent;
+    color: #c084fc;
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+  }
+  .rm2-btn-tips:hover { background: rgba(192,132,252,0.1); border-color: #c084fc; box-shadow: 0 0 10px rgba(192,132,252,0.2); }
+
+  /* Expandable info panels */
+  .rm2-sobre-panel {
+    background: #0a0d14;
+    border: 1px solid #1a2a4a;
+    border-left: 3px solid #60a5fa;
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+  .rm2-tips-panel {
+    background: #0d0a14;
+    border: 1px solid #2a1a4a;
+    border-left: 3px solid #c084fc;
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  /* Red separator */
+  .rm2-sep { height: 1px; background: var(--red); opacity: 0.35; margin-bottom: 22px; }
+
+  /* Stage card */
+  .rm2-stage {
+    margin-bottom: 16px;
+    border: 2px solid var(--red);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+  .rm2-stage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #0f0f0f;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .rm2-stage-header:hover { background: #141414; }
+  .rm2-stage-week {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background: #1a1a1a;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .rm2-stage-arrow { font-size: 13px; color: var(--text-muted); }
+  .rm2-stage-body { padding: 16px; }
+  .rm2-stage-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .rm2-stage-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .rm2-stage-stats {
+    display: flex;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .rm2-stage-mini-track { height: 5px; background: #1a1a1a; border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
+  .rm2-stage-mini-fill { height: 100%; background: var(--red); border-radius: 3px; }
+
+  /* Techniques */
+  .rm2-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .rm2-tech-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .rm2-tech-pill {
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #1a2a4a;
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* Machine grid */
+  .rm2-machines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 540px) { .rm2-machines-grid { grid-template-columns: 1fr; } }
+  .rm2-machine-box {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 13px;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .rm2-machine-box:hover { border-color: var(--red); }
+  .rm2-machine-box.resolved-box { color: #888; }
+  .rm2-machine-box .rm2-check { color: var(--green); margin-right: 5px; font-weight: 700; }
+
+  /* Notification toast */
+  #toast {
+    position: fixed;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+    left: 16px;
+    text-align: center;
+    background: #0a0a0a;
+    border: 1px solid var(--red);
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--red);
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(255,0,0,0.3);
+  }
+  #toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Cert filter pills that appear in controls */
+  .cert-chips { max-height: 80px; overflow-y: auto; }
+
+  /* ============================================================
+     ROADMAP eJPT — Interactive Vertical Timeline
+     ============================================================ */
+  .rm-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(16px, 3vw, 32px) clamp(12px, 3vw, 24px) 60px;
+    color: var(--text);
+  }
+  .rm-intro {
+    text-align: center;
+    padding: clamp(20px, 4vw, 32px) clamp(16px, 3vw, 28px);
+    background: linear-gradient(180deg, rgba(20,4,4,0.9), rgba(8,2,2,0.75));
+    border: 1px solid var(--red-border);
+    border-radius: 14px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 30px rgba(255,77,77,0.12), inset 0 0 40px rgba(139,0,0,0.08);
+  }
+  .rm-intro-title {
+    font-size: clamp(20px, 4.5vw, 28px);
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .rm-intro-sub {
+    font-size: clamp(12px, 2.5vw, 14px);
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+  .rm-progress-block { max-width: 460px; margin: 0 auto; }
+  .rm-progress-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,77,77,0.2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .rm-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red-dim), var(--red));
+    box-shadow: 0 0 10px rgba(255,77,77,0.55);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  .rm-progress-label {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.4px;
+  }
+
+  .rm-timeline {
+    position: relative;
+    padding-left: 56px;
+  }
+  .rm-line {
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 22px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(255,77,77,0.15), rgba(255,77,77,0.55) 20%, rgba(255,77,77,0.55) 80%, rgba(255,77,77,0.15));
+    box-shadow: 0 0 12px rgba(255,77,77,0.35);
+    border-radius: 2px;
+  }
+  .rm-node {
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .rm-node:last-child { margin-bottom: 0; }
+
+  .rm-phase-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 20px -56px;
+    padding: 0 4px;
+    z-index: 2;
+  }
+  .rm-phase-header:first-child { margin-top: 4px; }
+  .rm-phase-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,77,77,0.55), transparent);
+  }
+  .rm-phase-text {
+    font-family: 'JetBrains Mono', ui-monospace, monospace, var(--sans);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    color: var(--red);
+    padding: 6px 14px;
+    background: linear-gradient(180deg, #1a0303, #050505);
+    border: 1px solid var(--red);
+    border-radius: 999px;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(255,77,77,0.35), inset 0 0 6px rgba(255,77,77,0.1);
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .rm-phase-header { margin-left: -44px; }
+    .rm-phase-text { font-size: 9.5px; letter-spacing: 1.5px; padding: 5px 10px; }
+  }
+  .rm-dot {
+    position: absolute;
+    left: -56px;
+    top: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #1a0303, #050505);
+    border: 2px solid var(--red);
+    box-shadow: 0 0 14px rgba(255,77,77,0.45), inset 0 0 8px rgba(255,77,77,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: var(--red);
+    font-size: 15px;
+    z-index: 1;
+    transition: all 0.25s ease;
+  }
+  .rm-dot-check { display: none; font-size: 20px; }
+  .rm-node.completed .rm-dot {
+    background: linear-gradient(135deg, var(--red-dim), var(--red));
+    color: #fff;
+    box-shadow: 0 0 18px rgba(255,77,77,0.75), inset 0 0 8px rgba(0,0,0,0.3);
+  }
+  .rm-node.completed .rm-dot-num { display: none; }
+  .rm-node.completed .rm-dot-check { display: inline; color: #fff; }
+
+  .rm-card {
+    background: linear-gradient(180deg, rgba(14,4,4,0.95), rgba(6,2,2,0.9));
+    border: 1px solid rgba(255,77,77,0.22);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .rm-card:hover {
+    border-color: var(--card-border-hover);
+    box-shadow: 0 0 20px rgba(255,77,77,0.18);
+  }
+  .rm-node.completed .rm-card {
+    border-color: rgba(255,77,77,0.55);
+    box-shadow: 0 0 16px rgba(255,77,77,0.22);
+  }
+  .rm-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: linear-gradient(90deg, rgba(139,0,0,0.12), transparent);
+  }
+  .rm-header-icon {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(255,77,77,0.4));
+  }
+  .rm-header-text { flex: 1; min-width: 0; }
+  .rm-header-title {
+    font-size: clamp(14px, 3vw, 17px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.3px;
+  }
+  .rm-header-sub {
+    font-size: clamp(11px, 2.4vw, 13px);
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .rm-header-chevron {
+    color: var(--red);
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+  .rm-node.expanded .rm-header-chevron { transform: rotate(180deg); }
+
+  .rm-card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 18px;
+  }
+  .rm-node.expanded .rm-card-body {
+    max-height: 2200px;
+    padding: 4px 18px 18px;
+  }
+  .rm-cover {
+    display: block;
+    position: relative;
+    margin: 12px 0 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,77,77,0.35);
+    box-shadow: 0 0 18px rgba(255,77,77,0.18);
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    background: #0a0505;
+    line-height: 0;
+  }
+  .rm-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .rm-cover:hover {
+    border-color: var(--red);
+    box-shadow: 0 0 26px rgba(255,77,77,0.45);
+    transform: translateY(-2px);
+  }
+  .rm-cover:hover img { transform: scale(1.04); }
+  .rm-cover-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, var(--red-dim), var(--red));
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.55), 0 0 12px rgba(255,77,77,0.5);
+    line-height: 1;
+  }
+
+  .rm-desc {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+    background: rgba(255,77,77,0.05);
+    border-left: 3px solid var(--red);
+    border-radius: 4px;
+  }
+  .rm-section { margin-bottom: 14px; }
+  .rm-section:last-of-type { margin-bottom: 16px; }
+  .rm-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--red);
+    font-weight: 700;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed rgba(255,77,77,0.2);
+  }
+  .rm-objectives {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rm-objectives li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .rm-objectives li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+  .rm-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .rm-tool {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(255,77,77,0.08);
+    border: 1px solid rgba(255,77,77,0.28);
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace, var(--sans);
+    letter-spacing: 0.3px;
+  }
+  .rm-resources {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .rm-resource {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,77,77,0.15);
+    border-radius: 8px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s ease;
+  }
+  .rm-resource:hover {
+    background: rgba(255,77,77,0.08);
+    border-color: var(--red);
+    color: var(--text);
+    transform: translateX(4px);
+  }
+  .rm-resource-icon {
+    color: var(--red);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rm-mark-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: transparent;
+    border: 1px solid var(--red);
+    border-radius: 8px;
+    color: var(--red);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--sans);
+  }
+  .rm-mark-btn:hover {
+    background: rgba(255,77,77,0.1);
+    box-shadow: 0 0 12px rgba(255,77,77,0.3);
+  }
+  .rm-mark-btn.done {
+    background: linear-gradient(135deg, var(--red-dim), var(--red));
+    color: #fff;
+    border-color: var(--red);
+  }
+  .rm-mark-btn.done:hover {
+    background: linear-gradient(135deg, var(--red-dark), var(--red-dim));
+  }
+  .rm-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: rgba(255,77,77,0.05);
+    border: 1px dashed rgba(255,77,77,0.35);
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .rm-footer-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(255,77,77,0.4));
+  }
+  .rm-footer strong { color: var(--red); }
+
+  @media (max-width: 640px) {
+    .rm-timeline { padding-left: 44px; }
+    .rm-line { left: 16px; }
+    .rm-dot {
+      left: -44px;
+      width: 34px;
+      height: 34px;
+      font-size: 13px;
+    }
+    .rm-card-header { padding: 12px 14px; gap: 10px; }
+    .rm-header-icon { font-size: 22px; }
+    .rm-node.expanded .rm-card-body { padding: 4px 14px 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rm-card-body,
+    .rm-header-chevron,
+    .rm-progress-fill,
+    .rm-dot,
+    .rm-resource { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="splash" style="
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:#05070b;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:99999;
+  transition:opacity 0.4s ease;
+">
+  <img src="data:image/png;base64,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" style="width:120px;height:120px;border-radius:24px;margin-bottom:32px;box-shadow:0 0 40px rgba(255,77,77,0.3)">
+  <div style="width:180px;height:3px;background:#1a1a1a;border-radius:3px;overflow:hidden;">
+    <div id="splash-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#8b0000,#ff4d4d);border-radius:3px;transition:width 0.3s ease;box-shadow:0 0 8px rgba(255,77,77,0.5)"></div>
+  </div>
+  <div style="margin-top:16px;font-family:sans-serif;font-size:12px;color:#444;letter-spacing:2px;text-transform:uppercase">Cargando...</div>
+</div>
+
+<div id="app"></div>
+
+<div id="toast"></div>
+
+<script>
+const EMBEDDED_DATA = null; // loaded from data.json
+// ============================================================
+// State management
+// ============================================================
+let DATA = null;
+let STATE = {};  // { sheet: { id: { resuelta: bool } } }
+
+// UI filter state per tab
+const tabFilters = {
+  hackthebox: { search: '', dificultad: '', so: '', cert: '' },
+  vulnhub:    { search: '', dificultad: '', so: '', cert: '' },
+};
+const filtersOpen = {
+  hackthebox: false, vulnhub: false,
+};
+
+let activeTab = 'hackthebox';
+let ROADMAP_CERT = 'OSCP';
+
+// ============================================================
+// Utilities
+// ============================================================
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function diffClass(d) {
+  if (!d) return 'diff-unknown';
+  const l = d.toLowerCase().replace(/\s+/g,'');
+  if (l.includes('fácil') || l === 'facil') return 'diff-facil';
+  if (l.includes('media') || l === 'medium') return 'diff-media';
+  if (l.includes('difícil') || l === 'dificil' || l === 'hard') return 'diff-dificil';
+  if (l.includes('insane')) return 'diff-insane';
+  if (l.includes('veryeasy') || l.includes('very easy')) return 'diff-veryeasy';
+  if (l.includes('easy')) return 'diff-easy';
+  if (l.includes('medium')) return 'diff-medium';
+  if (l.includes('hard')) return 'diff-hard';
+  return 'diff-unknown';
+}
+
+function osIcon(so) {
+  if (!so) return '🖥️';
+  const l = so.toLowerCase();
+  if (l.includes('linux')) return '🐧';
+  if (l.includes('windows')) return '🪟';
+  if (l.includes('freebsd') || l.includes('bsd')) return '😈';
+  if (l.includes('solaris')) return '☀️';
+  return '🖥️';
+}
+
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+
+// All items start as unresolved; user toggles persist only in STATE (not from xlsx)
+function isResolved(sheet, item) {
+  const st = STATE[sheet];
+  if (st && st[String(item.id)] && typeof st[String(item.id)].resuelta !== 'undefined') {
+    return st[String(item.id)].resuelta;
+  }
+  // Always false by default — ignore item.resuelta from xlsx
+  return false;
+}
+
+// Lookup item by sheet key and numeric id
+function getItemById(sheetKey, id) {
+  const map = {
+    hackthebox: DATA.hackthebox,
+    htb_challenges: DATA.htb_challenges,
+    vulnhub: DATA.vulnhub,
+    portswigger: DATA.portswigger,
+    otros: DATA.otros,
+  };
+  return (map[sheetKey] || []).find(i => i.id === id) || null;
+}
+
+async function toggleResolved(sheetKey, itemId) {
+  const item = getItemById(sheetKey, itemId);
+  if (!item) return;
+  const current = isResolved(sheetKey, item);
+  const newVal = !current;
+  if (!STATE[sheetKey]) STATE[sheetKey] = {};
+  if (!STATE[sheetKey][String(itemId)]) STATE[sheetKey][String(itemId)] = {};
+  STATE[sheetKey][String(itemId)].resuelta = newVal;
+  try { localStorage.setItem('planning_state', JSON.stringify(STATE)); } catch(e) {}
+
+  toast(newVal ? '✓ Resuelta' : '○ Pendiente');
+
+  // Update card in-place (no scroll jump)
+  const card = document.getElementById(`card-${sheetKey}-${itemId}`);
+  if (card) {
+    card.classList.toggle('resolved', newVal);
+    const btn = card.querySelector('.btn-resolve');
+    if (btn) {
+      btn.classList.toggle('done', newVal);
+      btn.textContent = newVal ? '✓ Resuelta' : '○ Resolver';
+    }
+    // Update tab progress bar
+    const s = computeStats(sheetKey, DATA[sheetKey] || []);
+    const bar = document.getElementById(`progress-${sheetKey}`);
+    if (bar) bar.style.width = s.pct + '%';
+  } else if (activeTab === 'roadmap') {
+    // Roadmap doesn't use card ids — full re-render needed
+    const panel = document.getElementById('panel-roadmap');
+    if (panel) panel.innerHTML = renderRoadmap();
+  } else {
+    renderCurrentTab();
+  }
+
+  updateGlobalStats();
+}
+
+// ============================================================
+// Stats
+// ============================================================
+function computeStats(sheetKey, items) {
+  const total = items.length;
+  const resolved = items.filter(i => isResolved(sheetKey, i)).length;
+  return { total, resolved, pct: total ? Math.round(resolved / total * 100) : 0 };
+}
+
+function updateGlobalStats() {
+  if (!DATA) return;
+  const allSheets = [
+    ['hackthebox', DATA.hackthebox],
+    ['vulnhub', DATA.vulnhub],
+  ];
+  let total = 0, resolved = 0;
+  for (const [k, arr] of allSheets) {
+    total += arr.length;
+    resolved += arr.filter(i => isResolved(k, i)).length;
+  }
+  const pct = total ? Math.round(resolved / total * 100) : 0;
+
+  const el = document.getElementById('global-stats');
+  if (el) {
+    if (!el.firstChild) {
+      el.innerHTML = `
+        <div class="stat-item"><span class="stat-num" id="gs-total">${total}</span><span class="stat-label">Total</span></div>
+        <div class="stat-item"><span class="stat-num" id="gs-resolved" style="color:var(--green)">${resolved}</span><span class="stat-label">Resueltas</span></div>
+        <div class="stat-item"><span class="stat-num" id="gs-pct">${pct}%</span><span class="stat-label">Progreso</span></div>
+      `;
+    } else {
+      const t = document.getElementById('gs-total'); if (t) t.textContent = total;
+      const r = document.getElementById('gs-resolved'); if (r) r.textContent = resolved;
+      const p = document.getElementById('gs-pct'); if (p) p.textContent = pct + '%';
+    }
+  }
+
+  // Update nav badges and progress bars
+  for (const [k, arr] of allSheets) {
+    const s = computeStats(k, arr);
+    const navBadgeEl = document.getElementById(`navbadge-${k}`);
+    if (navBadgeEl) {
+      navBadgeEl.textContent = s.resolved;
+      navBadgeEl.style.display = s.resolved > 0 ? '' : 'none';
+    } else if (s.resolved > 0) {
+      const navBtn = document.getElementById(`navbtn-${k}`);
+      if (navBtn && !document.getElementById(`navbadge-${k}`)) {
+        const b = document.createElement('span');
+        b.className = 'nav-btn-badge';
+        b.id = `navbadge-${k}`;
+        b.textContent = s.resolved;
+        navBtn.appendChild(b);
+      }
+    }
+    const bar = document.getElementById(`progress-${k}`);
+    if (bar) bar.style.width = s.pct + '%';
+  }
+}
+
+// ============================================================
+// Filter helpers — collect unique values
+// ============================================================
+function unique(arr) { return [...new Set(arr.filter(Boolean))].sort(); }
+
+const _cache = {};
+function getCached(key, items, fn) {
+  if (!_cache[key]) _cache[key] = fn(items);
+  return _cache[key];
+}
+function getDificultades(key, items) { return getCached(key+'_diff', items, i => unique(i.map(x => x.dificultad))); }
+function getSOs(key, items)          { return getCached(key+'_so',   items, i => unique(i.map(x => x.so))); }
+function getCerts(key, items)        { return getCached(key+'_cert', items, i => { const a=[]; i.forEach(x=>{ if(x.certificaciones) a.push(...x.certificaciones); }); return unique(a); }); }
+function getCategorias(key, items)   { return getCached(key+'_cat',  items, i => unique(i.map(x => x.categoria))); }
+
+// ============================================================
+// Filter items
+// ============================================================
+function filterItems(sheetKey, items) {
+  const f = tabFilters[sheetKey];
+  const q = f.search.trim().toLowerCase();
+  return items.filter(item => {
+    // Search
+    if (q) {
+      const searchable = [
+        item.nombre || '',
+        ...(item.tecnicas || []),
+        ...(item.certificaciones || []),
+        item.categoria || '',
+        item.so || '',
+        item.ip || '',
+      ].join(' ').toLowerCase();
+      if (!searchable.includes(q)) return false;
+    }
+    // Dificultad
+    if (f.dificultad && item.dificultad !== f.dificultad) return false;
+    // SO
+    if (f.so && item.so !== f.so) return false;
+    // Cert
+    if (f.cert && !(item.certificaciones || []).includes(f.cert)) return false;
+    // Categoria (HTB challenges)
+    if (f.categoria && item.categoria !== f.categoria) return false;
+    return true;
+  });
+}
+
+// ============================================================
+// Card renderers
+// ============================================================
+function renderBadgeDiff(d) {
+  if (!d) return '';
+  return `<span class="badge-diff ${diffClass(d)}">${esc(d)}</span>`;
+}
+
+function renderTags(arr, cls='') {
+  if (!arr || !arr.length) return '';
+  return arr.map(t => `<span class="tag ${cls}" title="${esc(t)}">${esc(t)}</span>`).join('');
+}
+
+function renderCard_HTB(item, sheetKey) {
+  const resolved = isResolved(sheetKey, item);
+  const resClass = resolved ? 'resolved' : '';
+  const diffCls = diffClass(item.dificultad);
+  const resBtnClass = resolved ? 'done' : '';
+  const resBtnIcon = resolved ? '✓' : '○';
+  const resBtnText = resolved ? 'Resuelta' : 'Resolver';
+
+  const techTags = item.tecnicas && item.tecnicas.length
+    ? `<div class="section-divider">técnicas</div><div class="tags">${renderTags(item.tecnicas)}</div>` : '';
+  const certTags = item.certificaciones && item.certificaciones.length
+    ? `<div class="section-divider">certificaciones</div><div class="tags">${renderTags(item.certificaciones,'cert')}</div>` : '';
+  const descBlock = item.descripcion
+    ? `<div class="card-desc">${esc(item.descripcion)}</div>` : '';
+
+  const writeupBtn = item.writeup
+    ? `<a class="btn btn-writeup" href="${esc(item.writeup)}" target="_blank" rel="noopener noreferrer">▶ Writeup</a>` : '';
+
+  return `
+  <div class="card ${resClass} ${diffCls}" id="card-${sheetKey}-${item.id}">
+    <div class="card-header">
+      <div class="card-title">${esc(item.nombre)}</div>
+      ${renderBadgeDiff(item.dificultad)}
+    </div>
+    <div class="card-meta">
+      <span class="os-badge"><span class="os-icon">${osIcon(item.so)}</span>${esc(item.so || 'Unknown')}</span>
+      ${item.ip ? `<span class="card-ip">${esc(item.ip)}</span>` : ''}
+    </div>
+    ${descBlock}
+    ${techTags}
+    ${certTags}
+    <div class="card-actions">
+      <button class="btn btn-resolve ${resBtnClass}" onclick="toggleResolved('${sheetKey}', ${item.id})">
+        ${resBtnIcon} ${resBtnText}
+      </button>
+      ${writeupBtn}
+    </div>
+  </div>`;
+}
+
+function renderCard_Challenge(item) {
+  const sheetKey = 'htb_challenges';
+  const resolved = isResolved(sheetKey, item);
+  const resClass = resolved ? 'resolved' : '';
+  const resBtnClass = resolved ? 'done' : '';
+  const resBtnIcon = resolved ? '✓' : '○';
+
+  const techTags = item.tecnicas && item.tecnicas.length
+    ? `<div class="tags" style="margin-bottom:6px">${renderTags(item.tecnicas)}</div>` : '';
+
+  const catBadge = item.categoria
+    ? `<span class="tag">${esc(item.categoria)}</span>` : '';
+
+  const writeupBtn = item.writeup
+    ? `<a class="btn btn-writeup" href="${esc(item.writeup)}" target="_blank" rel="noopener noreferrer">▶ Writeup</a>` : '';
+
+  return `
+  <div class="card ${resClass}" id="card-${sheetKey}-${item.id}">
+    <div class="card-header">
+      <div class="card-title">${esc(item.nombre)}</div>
+      ${renderBadgeDiff(item.dificultad)}
+    </div>
+    <div class="tags" style="margin-bottom:8px">${catBadge}</div>
+    ${techTags}
+    <div class="card-actions">
+      <button class="btn btn-resolve ${resBtnClass}" onclick="toggleResolved('${sheetKey}', ${item.id})">
+        ${resBtnIcon} ${resBtnIcon === '✓' ? 'Resuelto' : 'Resolver'}
+      </button>
+      ${writeupBtn}
+    </div>
+  </div>`;
+}
+
+function renderCard_VulnHub(item) {
+  const sheetKey = 'vulnhub';
+  const resolved = isResolved(sheetKey, item);
+  const resClass = resolved ? 'resolved' : '';
+  const diffCls = diffClass(item.dificultad);
+  const resBtnClass = resolved ? 'done' : '';
+  const resBtnIcon = resolved ? '✓' : '○';
+
+  const techTags = item.tecnicas && item.tecnicas.length
+    ? `<div class="section-divider">técnicas</div><div class="tags">${renderTags(item.tecnicas)}</div>` : '';
+  const certTags = item.certificaciones && item.certificaciones.length
+    ? `<div class="section-divider">certificaciones</div><div class="tags">${renderTags(item.certificaciones,'cert')}</div>` : '';
+  const descBlock = item.descripcion
+    ? `<div class="card-desc">${esc(item.descripcion)}</div>` : '';
+
+  const enlaceBtn = item.enlace
+    ? `<a class="btn btn-lab" href="${esc(item.enlace)}" target="_blank" rel="noopener noreferrer">⬇ Descargar</a>` : '';
+  const writeupBtn = item.writeup
+    ? `<a class="btn btn-writeup" href="${esc(item.writeup)}" target="_blank" rel="noopener noreferrer">▶ Writeup</a>` : '';
+
+  return `
+  <div class="card ${resClass} ${diffCls}" id="card-${sheetKey}-${item.id}">
+    <div class="card-header">
+      <div class="card-title">${esc(item.nombre)}</div>
+      ${renderBadgeDiff(item.dificultad)}
+    </div>
+    <div class="card-meta">
+      <span class="os-badge"><span class="os-icon">${osIcon(item.so)}</span>${esc(item.so || 'Unknown')}</span>
+    </div>
+    ${descBlock}
+    ${techTags}
+    ${certTags}
+    <div class="card-actions">
+      <button class="btn btn-resolve ${resBtnClass}" onclick="toggleResolved('${sheetKey}', ${item.id})">
+        ${resBtnIcon} ${resolved ? 'Resuelta' : 'Resolver'}
+      </button>
+      ${enlaceBtn}
+      ${writeupBtn}
+    </div>
+  </div>`;
+}
+
+function renderCard_PortSwigger(item) {
+  const sheetKey = 'portswigger';
+  const resolved = isResolved(sheetKey, item);
+  const resClass = resolved ? 'resolved' : '';
+  const resBtnClass = resolved ? 'done' : '';
+  const resBtnIcon = resolved ? '✓' : '○';
+
+  const certTags = item.certificaciones && item.certificaciones.length
+    ? `<div class="tags" style="margin-bottom:8px">${renderTags(item.certificaciones,'cert')}</div>` : '';
+
+  const labsHtml = item.labs && item.labs.length ? `
+    <div class="section-divider">labs (${item.labs.length})</div>
+    <div class="labs-list">
+      ${item.labs.map(l => `
+        <div class="lab-item">
+          <div class="lab-dot"></div>
+          ${l.url
+            ? `<a class="lab-link" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.nombre)}</a>`
+            : `<span>${esc(l.nombre)}</span>`
+          }
+        </div>`).join('')}
+    </div>` : '';
+
+  const writeupBtn = item.writeup
+    ? `<a class="btn btn-writeup" href="${esc(item.writeup)}" target="_blank" rel="noopener noreferrer">▶ Writeup</a>` : '';
+
+  return `
+  <div class="card ${resClass}" id="card-${sheetKey}-${item.id}">
+    <div class="card-header">
+      <div class="card-title">${esc(item.nombre)}</div>
+    </div>
+    ${certTags}
+    ${labsHtml}
+    <div class="card-actions">
+      <button class="btn btn-resolve ${resBtnClass}" onclick="toggleResolved('${sheetKey}', ${item.id})">
+        ${resBtnIcon} ${resolved ? 'Completado' : 'Completar'}
+      </button>
+      ${writeupBtn}
+    </div>
+  </div>`;
+}
+
+function renderCard_Otros(item) {
+  const sheetKey = 'otros';
+  const resolved = isResolved(sheetKey, item);
+  const resClass = resolved ? 'resolved' : '';
+  const diffCls = diffClass(item.dificultad);
+  const resBtnClass = resolved ? 'done' : '';
+  const resBtnIcon = resolved ? '✓' : '○';
+
+  const techTags = item.tecnicas && item.tecnicas.length
+    ? `<div class="section-divider">técnicas</div><div class="tags">${renderTags(item.tecnicas)}</div>` : '';
+  const certTags = item.certificaciones && item.certificaciones.length
+    ? `<div class="section-divider">certificaciones</div><div class="tags">${renderTags(item.certificaciones,'cert')}</div>` : '';
+
+  const creadores = item.creadores
+    ? `<div class="card-meta" style="font-size:11px"><span style="color:var(--text-muted)">by</span> ${esc(item.creadores)}</div>` : '';
+  const descBlock = item.descripcion
+    ? `<div class="card-desc">${esc(item.descripcion)}</div>` : '';
+
+  const descargaBtn = item.link_descarga
+    ? `<a class="btn btn-lab" href="${esc(item.link_descarga)}" target="_blank" rel="noopener noreferrer">⬇ Descargar</a>` : '';
+  const writeupBtn = item.writeup
+    ? `<a class="btn btn-writeup" href="${esc(item.writeup)}" target="_blank" rel="noopener noreferrer">▶ Writeup</a>` : '';
+
+  return `
+  <div class="card ${resClass} ${diffCls}" id="card-${sheetKey}-${item.id}">
+    <div class="card-header">
+      <div class="card-title">${esc(item.nombre)}</div>
+      ${renderBadgeDiff(item.dificultad)}
+    </div>
+    <div class="card-meta">
+      <span class="os-badge"><span class="os-icon">${osIcon(item.so)}</span>${esc(item.so || 'Unknown')}</span>
+    </div>
+    ${creadores}
+    ${descBlock}
+    ${techTags}
+    ${certTags}
+    <div class="card-actions">
+      <button class="btn btn-resolve ${resBtnClass}" onclick="toggleResolved('${sheetKey}', ${item.id})">
+        ${resBtnIcon} ${resolved ? 'Resuelta' : 'Resolver'}
+      </button>
+      ${descargaBtn}
+      ${writeupBtn}
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// Controls / filters rendering
+// ============================================================
+function renderChipGroup(label, values, filterKey, currentVal, sheetKey) {
+  if (!values.length) return '';
+  const chips = values.map(v => {
+    const active = currentVal === v ? 'active' : '';
+    return `<button class="chip ${active}" data-sheet="${esc(sheetKey)}" data-key="${esc(filterKey)}" data-val="${esc(v)}" onclick="setFilter(this.dataset.sheet,this.dataset.key,this.dataset.val,this)">${esc(v)}</button>`;
+  }).join('');
+  return `
+    <span class="filter-label">${label}</span>
+    <div class="filter-group">${chips}</div>
+  `;
+}
+
+function setFilter(sheetKey, filterKey, value, btn) {
+  const f = tabFilters[sheetKey];
+  if (f[filterKey] === value) {
+    f[filterKey] = '';
+    btn.classList.remove('active');
+  } else {
+    const group = btn.parentElement;
+    group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    f[filterKey] = value;
+    btn.classList.add('active');
+  }
+  updateFilterBtn(sheetKey);
+  updateGrid(sheetKey);
+}
+
+// Update only the grid + count, preserving input focus
+function updateGrid(sheetKey) {
+  const map = {
+    hackthebox: DATA.hackthebox,
+    vulnhub: DATA.vulnhub,
+  };
+  const items = map[sheetKey] || [];
+  const filtered = filterItems(sheetKey, items);
+
+  let cardsHtml = '';
+  if (filtered.length === 0) {
+    cardsHtml = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-text">No se encontraron resultados</div></div>`;
+  } else {
+    if (sheetKey === 'hackthebox') cardsHtml = filtered.map(i => renderCard_HTB(i, sheetKey)).join('');
+    else if (sheetKey === 'htb_challenges') cardsHtml = filtered.map(i => renderCard_Challenge(i)).join('');
+    else if (sheetKey === 'vulnhub') cardsHtml = filtered.map(i => renderCard_VulnHub(i)).join('');
+    else if (sheetKey === 'portswigger') cardsHtml = filtered.map(i => renderCard_PortSwigger(i)).join('');
+    else if (sheetKey === 'otros') cardsHtml = filtered.map(i => renderCard_Otros(i)).join('');
+  }
+
+  const grid = document.getElementById(`grid-${sheetKey}`);
+  if (grid) grid.innerHTML = cardsHtml;
+
+  const count = document.getElementById(`count-${sheetKey}`);
+  if (count) count.textContent = `${filtered.length} / ${items.length}`;
+
+  const certChipsEl = document.getElementById(`cert-chips-${sheetKey}`);
+  if (certChipsEl) {
+    const f = tabFilters[sheetKey];
+    const activeCerts = getActiveCerts(sheetKey, items);
+    if (!activeCerts.includes(f.cert)) f.cert = '';
+    certChipsEl.innerHTML = activeCerts.length ? renderChipGroup('Cert', activeCerts, 'cert', f.cert, sheetKey) : '';
+  }
+}
+
+let _searchTimer = null;
+function setSearch(sheetKey, value) {
+  tabFilters[sheetKey].search = value;
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(() => updateGrid(sheetKey), 180);
+}
+
+function clearFilters(sheetKey) {
+  const f = tabFilters[sheetKey];
+  for (const k of Object.keys(f)) f[k] = '';
+  const si = document.getElementById(`search-${sheetKey}`);
+  if (si) si.value = '';
+  renderCurrentTab();
+}
+
+function toggleFilters(sheetKey) {
+  filtersOpen[sheetKey] = !filtersOpen[sheetKey];
+  const panel = document.getElementById(`filters-panel-${sheetKey}`);
+  const btn   = document.getElementById(`filter-btn-${sheetKey}`);
+  if (panel) panel.classList.toggle('open', filtersOpen[sheetKey]);
+  if (btn)   btn.setAttribute('aria-expanded', filtersOpen[sheetKey]);
+}
+
+function countActiveFilters(sheetKey) {
+  const f = tabFilters[sheetKey];
+  return Object.entries(f).filter(([k, v]) => k !== 'search' && v).length;
+}
+
+function updateFilterBtn(sheetKey) {
+  const btn = document.getElementById(`filter-btn-${sheetKey}`);
+  if (!btn) return;
+  const n = countActiveFilters(sheetKey);
+  btn.classList.toggle('has-active', n > 0);
+  const badge = btn.querySelector('.filter-active-count');
+  if (badge) { badge.textContent = n; badge.style.display = n > 0 ? '' : 'none'; }
+}
+
+// ============================================================
+// Tab rendering
+// ============================================================
+function getActiveCerts(sheetKey, items) {
+  const f = tabFilters[sheetKey];
+  const q = f.search.trim().toLowerCase();
+  const subset = items.filter(item => {
+    if (q) {
+      const s = [item.nombre||'',...(item.tecnicas||[]),...(item.certificaciones||[]),item.categoria||'',item.so||'',item.ip||''].join(' ').toLowerCase();
+      if (!s.includes(q)) return false;
+    }
+    if (f.dificultad && item.dificultad !== f.dificultad) return false;
+    if (f.so && item.so !== f.so) return false;
+    if (f.categoria && item.categoria !== f.categoria) return false;
+    return true;
+  });
+  const a = [];
+  subset.forEach(x => { if (x.certificaciones) a.push(...x.certificaciones); });
+  return unique(a);
+}
+
+function renderControls(sheetKey, items) {
+  const f = tabFilters[sheetKey];
+  const hasDiff = items.some(i => i.dificultad);
+  const hasSO = items.some(i => i.so);
+  const hasCat = items.some(i => i.categoria);
+
+  const diffs = hasDiff ? getDificultades(sheetKey, items) : [];
+  const sos = hasSO ? getSOs(sheetKey, items) : [];
+  const certs = getActiveCerts(sheetKey, items);
+  const cats = hasCat ? getCategorias(sheetKey, items) : [];
+
+  const filtered = filterItems(sheetKey, items);
+  const hasFilters = diffs.length || sos.length || certs.length || cats.length;
+  const nActive = countActiveFilters(sheetKey);
+  const isOpen = filtersOpen[sheetKey];
+
+  const filterBadge = nActive > 0
+    ? `<span class="filter-active-count">${nActive}</span>` : `<span class="filter-active-count" style="display:none">0</span>`;
+
+  return `
+  <div class="controls" id="controls-${sheetKey}">
+    <div class="controls-inner">
+      <div class="controls-search-row">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="search-${sheetKey}"
+            type="text" placeholder="Buscar máquina, técnica..."
+            value="${esc(f.search)}"
+            oninput="setSearch('${sheetKey}', this.value)">
+        </div>
+        ${hasFilters ? `<button id="filter-btn-${sheetKey}" class="btn-filter-toggle ${nActive > 0 ? 'has-active' : ''}"
+          onclick="toggleFilters('${sheetKey}')" aria-expanded="${isOpen}">
+          ⚙ Filtros ${filterBadge}
+        </button>` : ''}
+        <span id="count-${sheetKey}" style="font-family:var(--sans);font-size:12px;color:var(--text-muted);white-space:nowrap;flex-shrink:0">
+          ${filtered.length} / ${items.length}
+        </span>
+      </div>
+      ${hasFilters ? `<div class="filters-panel ${isOpen ? 'open' : ''}" id="filters-panel-${sheetKey}">
+        <div class="filters">
+          ${diffs.length ? renderChipGroup('Dificultad', diffs, 'dificultad', f.dificultad, sheetKey) : ''}
+          ${sos.length ? renderChipGroup('SO', sos, 'so', f.so, sheetKey) : ''}
+          ${cats.length ? renderChipGroup('Categoría', cats, 'categoria', f.categoria, sheetKey) : ''}
+          <span id="cert-chips-${sheetKey}">${certs.length ? renderChipGroup('Cert', certs, 'cert', f.cert, sheetKey) : ''}</span>
+          <button class="chip-clear" onclick="clearFilters('${sheetKey}')">✕ Limpiar</button>
+        </div>
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// ROADMAP
+// ============================================================
+function findSheetKey(item) {
+  for (const [k, arr] of Object.entries(DATA)) {
+    if (arr && Array.isArray(arr) && arr.some(i => i.id === item.id)) return k;
+  }
+  return 'hackthebox';
+}
+
+// Returns all machines across hackthebox/vulnhub/otros that match cert (startsWith)
+function getMachinesForCert(cert) {
+  const sheets = ['hackthebox', 'vulnhub'];
+  const result = [];
+  for (const sheetKey of sheets) {
+    const arr = DATA[sheetKey] || [];
+    for (const item of arr) {
+      const certs = item.certificaciones || [];
+      if (certs.some(c => String(c).trim() === cert)) {
+        result.push({ item, sheetKey });
+      }
+    }
+  }
+  return result;
+}
+
+// Map difficulty string → stage number and label
+function diffToStage(d) {
+  if (!d) return { n: 1, label: 'Fácil' };
+  const l = d.toLowerCase().replace(/\s+/g,'');
+  if (l.includes('fácil') || l === 'facil' || l === 'easy' || l === 'veryeasy') return { n: 1, label: 'Fácil' };
+  if (l.includes('media') || l === 'medium') return { n: 2, label: 'Media' };
+  if (l.includes('difícil') || l === 'dificil' || l === 'hard') return { n: 3, label: 'Difícil' };
+  if (l.includes('insane')) return { n: 4, label: 'Insane' };
+  return { n: 1, label: 'Fácil' };
+}
+
+const CERT_LIST = ['eJPT','OSCP','eCPPTv3','OSEP','OSWE','eWPT','eWPTXv2','eCPTXv2','OSED'];
+
+const CERT_DESCS = {
+  eJPT:    'OSINT, reconocimiento y enumeración de redes. Uso de Metasploit y herramientas básicas. Ideal para iniciar en el mundo del hacking ético.',
+  OSCP:    'Enfoque en Active Directory, pivoting y privilege escalation. Metodología completa desde enumeración hasta explotación. Preparación exhaustiva para el examen OSCP real.',
+  eCPPTv3: 'Network pentesting, wireless y pivoting avanzado. VoIP security, IoT hacking y firmware analysis. Reporting profesional y metodología empresarial.',
+  OSEP:    'Evasión de EDR/AV y técnicas anti-forenses. Development de C2 custom y advanced persistence. Simulación de ataques APT en entornos corporativos.',
+  OSWE:    'Explotación avanzada de SSTI, deserialization y XXE. Análisis de código fuente y white-box testing. Desarrollo de exploits personalizados para aplicaciones web.',
+  eWPT:    'OWASP Top 10 y vulnerabilidades web modernas. JWT attacks, SSRF y advanced injection techniques. Metodología completa de auditoría de aplicaciones web.',
+  eWPTXv2: 'Prototype pollution y HTTP/2 attacks. Advanced deserialization y gadget chain construction. Técnicas cutting-edge de explotación web.',
+  eCPTXv2: 'Certificate services attacks y forest trusts. Azure AD integration y hybrid identity exploitation. Advanced persistence con DCShadow y DCSync.',
+  OSED:    'Buffer overflow, ROP chains y bypass de protecciones. Heap exploitation y técnicas de memory corruption. Desarrollo de exploits confiables para Windows.',
+};
+
+// Toggle visibility of "Sobre cert" panel
+function toggleRmSobre() {
+  const panel = document.getElementById('rm2-sobre-panel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+// Toggle visibility of "Consejos" panel
+function toggleRmTips() {
+  const panel = document.getElementById('rm2-tips-panel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+// Toggle stage collapse
+function toggleRmStage(stageId) {
+  const body = document.getElementById('rm2-stage-body-' + stageId);
+  const arrow = document.getElementById('rm2-stage-arrow-' + stageId);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.textContent = isOpen ? '▶' : '▼';
+}
+
+// Switch cert from pill selector
+function switchRmCert(cert) {
+  ROADMAP_CERT = cert;
+  const panel = document.getElementById('panel-roadmap');
+  if (panel) panel.innerHTML = renderRoadmap();
+}
+
+
+// ============================================================
+// ROADMAP eJPT — De Cero a Junior Pentester · LionXSecurity
+// ============================================================
+const EJPT_ROADMAP = [
+  // ───────── FASE 1 · FUNDAMENTOS ─────────
+  {
+    phase: 'FASE 1 · FUNDAMENTOS',
+    icon: '🚀',
+    title: 'Bienvenida al mundo de la Ciberseguridad',
+    subtitle: 'Roles, principios y cómo se estructura la industria',
+    desc: 'Antes de tocar una terminal, entiende el terreno. Qué hace un pentester, un analista SOC, un red teamer. Los pilares CIA (Confidencialidad · Integridad · Disponibilidad), criptografía básica y métodos de autenticación son la base de todo lo que aprenderás después.',
+    objectives: [
+      '¿Qué es la ciberseguridad y por qué importa hoy?',
+      'Roles: Pentester · SOC Analyst · Red / Blue Team · DFIR · GRC',
+      'Tríada CIA — los 3 pilares que protege todo control de seguridad',
+      'Criptografía: simétrica vs asimétrica · hashing (SHA-256) · TLS',
+      'Autenticación: MFA · tokens · biometría · SSO · Kerberos vs SAML',
+    ],
+    tools: ['Wikipedia', 'NIST Glossary'],
+    resources: [
+      { name: '🦁 Blog y recursos oficiales · LionXSecurity', url: 'https://lionxsecurity.es/' },
+      { name: '📖 CIA Triad (glosario NIST)', url: 'https://csrc.nist.gov/glossary/term/confidentiality_integrity_availability' },
+    ],
+  },
+  {
+    phase: 'FASE 1 · FUNDAMENTOS',
+    icon: '🖥️',
+    title: 'Monta tu laboratorio · Máquina Virtual + Kali Linux',
+    subtitle: 'Guía visual paso a paso — 30 minutos y listo',
+    desc: 'Tu ordenador anfitrión NUNCA debe atacar directamente. Instala VirtualBox (gratis), descarga la imagen preconfigurada de Kali Linux y arráncala. Descarga también la chuleta de comandos que usarás a diario. En 30 minutos tendrás un laboratorio profesional funcionando y aislado.',
+    objectives: [
+      'Descargar e instalar VirtualBox (Windows / Mac / Linux)',
+      'Descargar la imagen oficial VDI/OVA de Kali Linux',
+      'Importar la VM y asignar 4-8 GB RAM · 2-4 vCPU',
+      'Configurar red NAT + Host-Only para labs aislados',
+      'Crear un snapshot inicial (siempre puedes volver atrás)',
+      'Descargar las chuletas de Linux, Nmap y Redes',
+    ],
+    tools: ['VirtualBox', 'Kali Linux', 'VMware Player'],
+    resources: [
+      { name: '⬇️ Kali Linux — imágenes para VirtualBox', url: 'https://www.kali.org/get-kali/#kali-virtual-machines' },
+      { name: '⬇️ VirtualBox (oficial · gratis)', url: 'https://www.virtualbox.org/wiki/Downloads' },
+      { name: '📄 Cheatsheets · Redes, comandos y puertos', url: 'https://packetlife.net/library/cheat-sheets/' },
+    ],
+  },
+
+  // ───────── FASE 2 · ACADEMIA LIONX ─────────
+  {
+    phase: 'FASE 2 · ACADEMIA LIONX',
+    icon: '🌐',
+    cover: 'https://lionxsecurity.es/media/cursos/portadas/portadasredes.jpg',
+    courseUrl: 'https://www.skool.com/trabajo-en-ciber-5817/classroom',
+    title: 'Curso 1/3 · Introducción a Redes (CCNA)',
+    subtitle: 'Cisco Packet Tracer · Academia LionXSecurity',
+    desc: 'Sin redes, no hay hacking. Este curso oficial de LionXSecurity te lleva del modelo OSI a montar tus propias topologías en Cisco Packet Tracer. Cuando termines, entenderás qué pasa por debajo de cada nmap y cada request de Burp — y por qué un puerto abierto es una puerta.',
+    objectives: [
+      'Modelo OSI y pila TCP/IP · las 7 capas y sus protocolos',
+      'Direccionamiento IPv4 e IPv6 · subnetting · CIDR · VLSM',
+      'Protocolos clave: ARP · DHCP · DNS · HTTP/S · ICMP · FTP · SMB · SSH',
+      'Routing estático y dinámico (RIP · OSPF)',
+      'VLANs, switching y configuración de dispositivos Cisco',
+      'Laboratorios guiados en Cisco Packet Tracer',
+    ],
+    tools: ['Cisco Packet Tracer', 'Wireshark', 'ipcalc'],
+    resources: [
+      { name: '🦁 Ir al curso — Redes CCNA · LionXSecurity', url: 'https://www.skool.com/trabajo-en-ciber-5817/classroom' },
+      { name: '⬇️ Wireshark (herramienta oficial)', url: 'https://www.wireshark.org/download.html' },
+    ],
+  },
+  {
+    phase: 'FASE 2 · ACADEMIA LIONX',
+    icon: '🐚',
+    cover: 'https://lionxsecurity.es/media/cursos/portadas/thumb1.jpg',
+    courseUrl: 'https://www.skool.com/trabajo-en-ciber-5817/classroom',
+    title: 'Curso 2/3 · Bash Scripting en Linux',
+    subtitle: 'Automatiza como un pro · Academia LionXSecurity',
+    desc: 'El 90% del pentesting sucede en la terminal. Este curso de LionXSecurity te lleva de cero a nivel productivo con Bash: pipes, redirecciones, funciones, bucles y scripts que enumeran objetivos mientras tú tomas café. Prepara el terreno para automatizar todo tu recon en la fase eJPT.',
+    objectives: [
+      'Sintaxis Bash: variables · condicionales · bucles · funciones',
+      'Streams: pipes · redirecciones · tee · xargs',
+      'Herramientas UNIX: grep · awk · sed · cut · sort · uniq',
+      'Cron, systemd timers y background jobs',
+      'Escribir tus propios scripts de enumeración de objetivos',
+      'Buenas prácticas: set -e · trap · parámetros posicionales',
+    ],
+    tools: ['bash', 'grep', 'awk', 'sed', 'jq', 'curl'],
+    resources: [
+      { name: '🦁 Ir al curso — Bash Scripting Linux · LionXSecurity', url: 'https://www.skool.com/trabajo-en-ciber-5817/classroom' },
+      { name: '📄 Bash Reference Manual (documentación GNU)', url: 'https://www.gnu.org/software/bash/manual/' },
+    ],
+  },
+  {
+    phase: 'FASE 2 · ACADEMIA LIONX',
+    icon: '🎯',
+    cover: 'https://lionxsecurity.es/media/cursos/portadas/bu.jpg',
+    courseUrl: 'https://www.skool.com/trabajo-en-ciber-5817/classroom',
+    title: 'Curso 3/3 · Bug Bounty (Hacking Web) — Enfoque eJPT',
+    subtitle: 'Del OWASP Top 10 al examen · Academia LionXSecurity',
+    desc: 'El curso que junta todo lo anterior. Aprendes a atacar aplicaciones web reales con las técnicas que exige el eJPTv2: recon, explotación web, Metasploit, pivoting y toma de notas. Enfoque 100% eJPT — sin contenido de OSCP ni otras certificaciones.',
+    objectives: [
+      'Recon web: gobuster · ffuf · whatweb · wappalyzer',
+      'OWASP Top 10 aplicado: SQLi · XSS · LFI/RFI · IDOR · upload',
+      'Burp Suite: proxy · repeater · intruder (como en el examen)',
+      'Explotación con Metasploit: payloads · meterpreter · post-exp',
+      'Pivoting básico (SSH tunnels · proxychains) — TEMA CLAVE eJPT',
+      'Metodología de examen: gestión del tiempo en 48 h',
+    ],
+    tools: ['Burp Suite', 'Metasploit', 'sqlmap', 'ffuf', 'gobuster'],
+    resources: [
+      { name: '🦁 Ir al curso — Bug Bounty Web · LionXSecurity', url: 'https://www.skool.com/trabajo-en-ciber-5817/classroom' },
+      { name: '⬇️ Burp Suite Community (oficial)', url: 'https://portswigger.net/burp/communitydownload' },
+      { name: '📄 PayloadsAllTheThings (repo GitHub)', url: 'https://github.com/swisskyrepo/PayloadsAllTheThings' },
+    ],
+  },
+
+  // ───────── FASE 3 · LABORATORIO PRÁCTICO ─────────
+  {
+    phase: 'FASE 3 · LABORATORIO PRÁCTICO',
+    icon: '🧪',
+    title: 'Plataformas de práctica — HTB · VulnHub · CTFs',
+    subtitle: 'Rompe cosas legalmente hasta que te salga solo',
+    desc: 'Ver videos NO es aprender. Necesitas ~50 máquinas resueltas ANTES del examen. Hack The Box te da entorno cloud, VulnHub máquinas descargables para tu VM local, y las plataformas CTF eventos donde compites contra otros. Empieza por las Easy de HTB filtradas por eJPT (usa la pestaña HackTheBox de esta app).',
+    objectives: [
+      'Crear cuenta en Hack The Box (Starting Point es gratis)',
+      'Resolver 20+ máquinas Easy filtradas por eJPT',
+      'Descargar y montar 5-10 máquinas de VulnHub en tu VM',
+      'Participar en al menos 1 CTF (calendario en CTFtime)',
+      'Reto: repetir cada máquina hasta hacerla en < 1 h sin walkthrough',
+    ],
+    tools: ['HTB VPN', 'VulnHub', 'CTFtime'],
+    resources: [
+      { name: '🎯 Hack The Box — plataforma de máquinas', url: 'https://www.hackthebox.com/' },
+      { name: '📦 VulnHub — máquinas descargables', url: 'https://www.vulnhub.com/' },
+      { name: '🏆 CTFtime — calendario mundial de CTFs', url: 'https://ctftime.org/' },
+      { name: '🦁 Guías y writeups · LionXSecurity', url: 'https://lionxsecurity.es/' },
+    ],
+  },
+  {
+    phase: 'FASE 3 · LABORATORIO PRÁCTICO',
+    icon: '📝',
+    title: 'Toma de notas + IA de apoyo',
+    subtitle: 'Obsidian · Notion · Mimiro — el trío que aprueba el eJPT',
+    desc: 'En el examen tienes 48 h y 35 preguntas. Sin notas ordenadas, mueres. Obsidian con Excalidraw y Templater es el estándar entre pentesters. Notion sirve si prefieres nube. Mimiro es la IA de apoyo: resume máquinas, genera diagramas automáticos y responde dudas técnicas mientras practicas.',
+    objectives: [
+      'Instalar Obsidian y crear vault con estructura /HTB /Web /Redes',
+      'Plantilla de writeup: Enumeración → Foothold → Privesc → Loot',
+      'Plugins clave: Excalidraw · Templater · Dataview',
+      'Usar Mimiro para explicaciones y diagramas de ataque',
+      'Sincronizar notas con Git (backup en GitHub privado)',
+    ],
+    tools: ['Obsidian', 'Notion', 'Mimiro AI', 'Excalidraw'],
+    resources: [
+      { name: '⬇️ Obsidian (gratis)', url: 'https://obsidian.md/' },
+      { name: '📓 Notion (gratis con plan personal)', url: 'https://www.notion.so/' },
+      { name: '🤖 Mimiro — IA para ciberseguridad', url: 'https://www.mimiro.ai/' },
+      { name: '🎨 Excalidraw — diagramas rápidos', url: 'https://excalidraw.com/' },
+    ],
+  },
+
+  // ───────── FASE 4 · CERTIFICACIÓN & EMPLEO ─────────
+  {
+    phase: 'FASE 4 · CERTIFICACIÓN & EMPLEO',
+    icon: '🏅',
+    title: 'Certificación eJPTv2 · El examen',
+    subtitle: '48 h · 35 preguntas · red real · sin walkthrough',
+    desc: 'El eJPTv2 es 100% práctico: te conectas por VPN a una red corporativa simulada y respondes 35 preguntas usando lo que descubres. Se aprueba con 22/35. Si has hecho los 3 cursos de LionXSecurity + 50 máquinas HTB, apruebas a la primera. Reserva examen cuando lleves 2-3 simulacros superados.',
+    objectives: [
+      'Reservar voucher del examen eJPTv2',
+      'Completar 2-3 simulacros antes de reservar fecha',
+      'Bloquear 48 h libres sin interrupciones para el examen',
+      'Estrategia: enumerar TODO antes de explotar · notas en Obsidian',
+      'Contratar tutoría 1-a-1 en LionXSecurity si atascas en Pivoting o Web',
+      'Añadir badge digital a LinkedIn el mismo día del aprobado',
+    ],
+    tools: ['Kali Linux', 'Obsidian', 'Tutoría LionXSecurity'],
+    resources: [
+      { name: '🦁 Tutorías 1-a-1 y refuerzo · LionXSecurity', url: 'https://lionxsecurity.es/' },
+      { name: '📄 Info oficial del examen eJPTv2', url: 'https://security.ine.com/certifications/ejpt-certification/' },
+      { name: '💬 Reddit r/eJPT — dudas y experiencias', url: 'https://www.reddit.com/r/eJPT/' },
+    ],
+  },
+  {
+    phase: 'FASE 4 · CERTIFICACIÓN & EMPLEO',
+    icon: '💼',
+    title: 'Portfolio GitHub + Búsqueda de empleo',
+    subtitle: 'De certificado a Junior Pentester / SOC Analyst L1',
+    desc: 'La certificación abre la puerta; el portfolio te contrata. Sube tus writeups (ANONIMIZADOS — nunca flags ni credenciales activas) a un repo GitHub público, mantén un README pulido, y aplica a Junior Pentester, SOC L1 o Auditor de Ciberseguridad. En España las ofertas están en LinkedIn, InfoJobs y comunidades de Telegram/Discord.',
+    objectives: [
+      'Repo público "pentesting-writeups" en GitHub con README claro',
+      'Subir 10-15 writeups en Markdown de máquinas HTB resueltas',
+      'CV en 1 página: eJPTv2 arriba · cursos LionXSecurity · proyectos',
+      'LinkedIn: título "eJPTv2 Certified · Junior Pentester"',
+      'Aplicar a: Junior Pentester · SOC L1 · Consultor Ciberseguridad',
+      'Comunidades ES: Hackplayers · HackMadrid · HackBCN · Discord LionXSecurity',
+    ],
+    tools: ['GitHub', 'LinkedIn', 'InfoJobs', 'CVMaker'],
+    resources: [
+      { name: '💻 GitHub — crea tu cuenta y repo', url: 'https://github.com/' },
+      { name: '💼 LinkedIn — perfil profesional', url: 'https://www.linkedin.com/' },
+      { name: '🇪🇸 InfoJobs — ofertas ciberseguridad', url: 'https://www.infojobs.net/ofertas-trabajo/ciberseguridad' },
+      { name: '🏴 Hackplayers — comunidad ES', url: 'https://www.hackplayers.com/' },
+    ],
+  },
+];
+
+function getRoadmapProgress() {
+  try {
+    return JSON.parse(localStorage.getItem('roadmap_progress') || '{}');
+  } catch(e) { return {}; }
+}
+function setRoadmapStage(idx, done) {
+  const p = getRoadmapProgress();
+  if (done) p[idx] = true; else delete p[idx];
+  try { localStorage.setItem('roadmap_progress', JSON.stringify(p)); } catch(e) {}
+}
+function toggleRoadmapStage(idx) {
+  const el = document.getElementById(`rm-node-${idx}`);
+  if (!el) return;
+  el.classList.toggle('expanded');
+}
+function markRoadmapStage(idx, ev) {
+  if (ev) ev.stopPropagation();
+  const p = getRoadmapProgress();
+  const done = !p[idx];
+  setRoadmapStage(idx, done);
+  const el = document.getElementById(`rm-node-${idx}`);
+  if (el) el.classList.toggle('completed', done);
+  updateRoadmapProgress();
+  toast(done ? '✓ Etapa completada' : '○ Etapa desmarcada');
+}
+function updateRoadmapProgress() {
+  const p = getRoadmapProgress();
+  const done = Object.keys(p).length;
+  const total = EJPT_ROADMAP.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const bar = document.getElementById('rm-progress-bar');
+  const label = document.getElementById('rm-progress-label');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = `${done}/${total} etapas · ${pct}%`;
+}
+
+function renderRoadmap() {
+  const progress = getRoadmapProgress();
+  const done = Object.keys(progress).length;
+  const total = EJPT_ROADMAP.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+
+  let lastPhase = '';
+  const nodes = EJPT_ROADMAP.map((stage, idx) => {
+    const isDone = !!progress[idx];
+    const objectives = stage.objectives.map(o => `<li>${esc(o)}</li>`).join('');
+    const tools = stage.tools.map(t => `<span class="rm-tool">${esc(t)}</span>`).join('');
+    const resources = stage.resources.map(r =>
+      `<a class="rm-resource" href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">
+         <span class="rm-resource-icon">↗</span>${esc(r.name)}
+       </a>`).join('');
+    let phaseHeader = '';
+    if (stage.phase && stage.phase !== lastPhase) {
+      lastPhase = stage.phase;
+      phaseHeader = `<div class="rm-phase-header"><span class="rm-phase-line"></span><span class="rm-phase-text">${esc(stage.phase)}</span><span class="rm-phase-line"></span></div>`;
+    }
+    return `
+    ${phaseHeader}
+    <div class="rm-node ${isDone ? 'completed' : ''}" id="rm-node-${idx}">
+      <div class="rm-dot">
+        <span class="rm-dot-num">${idx + 1}</span>
+        <span class="rm-dot-check">✓</span>
+      </div>
+      <div class="rm-card">
+        <div class="rm-card-header" onclick="toggleRoadmapStage(${idx})">
+          <div class="rm-header-icon">${stage.icon}</div>
+          <div class="rm-header-text">
+            <div class="rm-header-title">${esc(stage.title)}</div>
+            <div class="rm-header-sub">${esc(stage.subtitle)}</div>
+          </div>
+          <div class="rm-header-chevron">▾</div>
+        </div>
+        <div class="rm-card-body">
+          ${stage.cover ? `<a class="rm-cover" href="${esc(stage.courseUrl || 'https://www.skool.com/trabajo-en-ciber-5817/classroom')}" target="_blank" rel="noopener noreferrer" aria-label="${esc(stage.title)} — abrir curso"><img src="${esc(stage.cover)}" alt="Portada del curso ${esc(stage.title)}" loading="lazy"><span class="rm-cover-badge">🦁 Abrir curso</span></a>` : ''}
+          <p class="rm-desc">${esc(stage.desc)}</p>
+          <div class="rm-section">
+            <div class="rm-section-title">Objetivos</div>
+            <ul class="rm-objectives">${objectives}</ul>
+          </div>
+          <div class="rm-section">
+            <div class="rm-section-title">Herramientas clave</div>
+            <div class="rm-tools">${tools}</div>
+          </div>
+          <div class="rm-section">
+            <div class="rm-section-title">Recursos recomendados</div>
+            <div class="rm-resources">${resources}</div>
+          </div>
+          <button class="rm-mark-btn ${isDone ? 'done' : ''}" onclick="markRoadmapStage(${idx}, event)">
+            ${isDone ? '✓ Completada' : '○ Marcar como completada'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="rm-wrap">
+    <div class="rm-intro">
+      <div class="rm-intro-title">🦁 De Cero a Junior Pentester</div>
+      <div class="rm-intro-sub">Ruta paso a paso · eJPTv2 · Powered by <strong style="color:var(--red)">LionXSecurity</strong></div>
+      <div class="rm-progress-block">
+        <div class="rm-progress-track">
+          <div class="rm-progress-fill" id="rm-progress-bar" style="width:${pct}%"></div>
+        </div>
+        <div class="rm-progress-label" id="rm-progress-label">${done}/${total} etapas · ${pct}%</div>
+      </div>
+    </div>
+    <div class="rm-timeline">
+      <div class="rm-line"></div>
+      ${nodes}
+    </div>
+    <div class="rm-footer">
+      <div class="rm-footer-icon">🎯</div>
+      <div>Durante la <strong>FASE 3</strong>, usa la pestaña <strong>HackTheBox</strong> de esta app y filtra por <strong>eJPT · Fácil</strong> para practicar las 20+ máquinas recomendadas. Descuentos y tutorías 1-a-1 en <a href="https://lionxsecurity.es/" target="_blank" rel="noopener" style="color:var(--red);text-decoration:underline">lionxsecurity.es</a>.</div>
+    </div>
+  </div>`;
+}
+
+function renderTabContent(sheetKey) {
+  if (sheetKey === 'roadmap') return renderRoadmap();
+  const map = {
+    hackthebox: DATA.hackthebox,
+    htb_challenges: DATA.htb_challenges,
+    vulnhub: DATA.vulnhub,
+    portswigger: DATA.portswigger,
+    otros: DATA.otros,
+  };
+  const items = map[sheetKey];
+  const filtered = filterItems(sheetKey, items);
+  const stats = computeStats(sheetKey, items);
+
+  let cardsHtml = '';
+  if (filtered.length === 0) {
+    cardsHtml = `<div class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <div class="empty-state-text">No se encontraron resultados</div>
+    </div>`;
+  } else {
+    if (sheetKey === 'hackthebox') {
+      cardsHtml = filtered.map(i => renderCard_HTB(i, sheetKey)).join('');
+    } else if (sheetKey === 'htb_challenges') {
+      cardsHtml = filtered.map(i => renderCard_Challenge(i)).join('');
+    } else if (sheetKey === 'vulnhub') {
+      cardsHtml = filtered.map(i => renderCard_VulnHub(i)).join('');
+    } else if (sheetKey === 'portswigger') {
+      cardsHtml = filtered.map(i => renderCard_PortSwigger(i)).join('');
+    } else if (sheetKey === 'otros') {
+      cardsHtml = filtered.map(i => renderCard_Otros(i)).join('');
+    }
+  }
+
+  return `
+    ${renderControls(sheetKey, items)}
+    <div class="tab-progress">
+      <div class="tab-progress-bar" id="progress-${sheetKey}" style="width:${stats.pct}%"></div>
+    </div>
+    <div class="grid-container" id="grid-${sheetKey}">${cardsHtml}</div>
+  `;
+}
+
+function renderCurrentTab() {
+  const panel = document.getElementById(`panel-${activeTab}`);
+  if (panel) panel.innerHTML = renderTabContent(activeTab);
+  updateGlobalStats();
+}
+
+// ============================================================
+// Full app render
+// ============================================================
+function renderApp() {
+  const tabs = [
+    { key: 'hackthebox', label: 'HackTheBox', items: DATA.hackthebox },
+    { key: 'vulnhub',    label: 'VulnHub',    items: DATA.vulnhub },
+    { key: 'roadmap',    label: 'Roadmap',    items: [] },
+  ];
+
+  const TAB_META = {
+    hackthebox: { icon: '🎯', label: 'HackTheBox' },
+    vulnhub:    { icon: '💻', label: 'VulnHub' },
+    roadmap:    { icon: '🗺️', label: 'Roadmap' },
+  };
+
+  const tabBtns = tabs.map(t => {
+    const active = t.key === activeTab ? 'active' : '';
+    const m = TAB_META[t.key];
+    let badge = '';
+    if (t.key !== 'roadmap' && t.items.length) {
+      const s = computeStats(t.key, t.items);
+      if (s.resolved > 0) badge = `<span class="nav-btn-badge" id="navbadge-${t.key}">${s.resolved}</span>`;
+    }
+    return `<button class="tab-btn ${active}" id="navbtn-${t.key}" onclick="switchTab('${t.key}')">
+      ${m.icon} ${m.label}${badge}
+    </button>`;
+  }).join('');
+
+  const panels = tabs.map(t => {
+    const active = t.key === activeTab ? 'active' : '';
+    return `<div class="tab-panel ${active}" id="panel-${t.key}">
+      ${t.key === activeTab ? renderTabContent(t.key) : ''}
+    </div>`;
+  }).join('');
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="header-wrap">
+      <header class="header">
+        <div class="logo">Hacking <span>Study Planner</span></div>
+        <div class="header-stats" id="global-stats"></div>
+      </header>
+    </div>
+    <div class="tabs-bar-wrap">
+      <nav class="tabs-bar">${tabBtns}</nav>
+    </div>
+    <main>${panels}</main>
+  `;
+
+  updateGlobalStats();
+}
+
+function switchTab(key) {
+  activeTab = key;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const navBtn = document.getElementById(`navbtn-${key}`);
+  if (navBtn) navBtn.classList.add('active');
+  // Render panel if not yet rendered
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(`panel-${key}`);
+  if (panel) {
+    panel.classList.add('active');
+    if (!panel.innerHTML.trim()) {
+      panel.innerHTML = renderTabContent(key);
+    }
+    window.scrollTo(0, 0);
+  }
+  updateGlobalStats();
+}
+
+// ============================================================
+// Boot — load data only; STATE starts empty (all unresolved)
+// ============================================================
+function hideSplash() {
+  const s = document.getElementById('splash');
+  if (!s) return;
+  s.style.opacity = '0';
+  setTimeout(() => s.remove(), 420);
+}
+
+function setSplashProgress(pct) {
+  const bar = document.getElementById('splash-bar');
+  if (bar) bar.style.width = pct + '%';
+}
+
+async function init() {
+  try {
+    setSplashProgress(20);
+    const resp = await fetch('./data.json');
+    if (!resp.ok) throw new Error('No se pudo cargar data.json (' + resp.status + ')');
+    setSplashProgress(60);
+    const parsed = await resp.json();
+    if (!parsed || !parsed.hackthebox) throw new Error('Estructura de datos inválida');
+    // Filtrar solo máquinas con certificación eJPT
+    const hasEJPT = item => (item.certificaciones || []).some(c => c === 'eJPT');
+    parsed.hackthebox     = (parsed.hackthebox     || []).filter(hasEJPT);
+    parsed.vulnhub        = (parsed.vulnhub        || []).filter(hasEJPT);
+    parsed.otros          = (parsed.otros          || []).filter(hasEJPT);
+    parsed.htb_challenges = (parsed.htb_challenges || []).filter(hasEJPT);
+    parsed.portswigger    = (parsed.portswigger    || []);
+    DATA = parsed;
+    setSplashProgress(85);
+    try {
+      const saved = localStorage.getItem('planning_state');
+      if (saved) STATE = JSON.parse(saved) || {};
+    } catch(e) { STATE = {}; }
+    setSplashProgress(100);
+    renderApp();
+    syncHeaderHeight();
+    setTimeout(hideSplash, 200);
+  } catch(e) {
+    hideSplash();
+    const el = document.getElementById('app');
+    if (el) {
+      const msg = document.createElement('div');
+      msg.style.cssText = 'color:#ff4d4d;padding:40px;text-align:center;font-family:sans-serif';
+      msg.textContent = 'Error cargando datos: ' + e.message;
+      el.appendChild(msg);
+    }
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) clearTimeout(_searchTimer);
+});
+
+function syncHeaderHeight() {
+  const hw = document.querySelector('.header-wrap');
+  if (!hw) return;
+  const update = () => {
+    document.documentElement.style.setProperty('--header-h', hw.offsetHeight + 'px');
+  };
+  update();
+  if (window.ResizeObserver) new ResizeObserver(update).observe(hw);
+  else window.addEventListener('resize', update);
+}
+
+// ── Back to top ──
+(function() {
+  const btn = document.createElement('button');
+  btn.id = 'back-to-top';
+  btn.title = 'Volver arriba';
+  btn.textContent = '↑';
+  btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+})();
+
+init();
+</script>
+</body>
+</html>
