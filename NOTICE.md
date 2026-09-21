@@ -1,5 +1,7 @@
 # Aviso de derechos y atribuciones
 
+Copyright (c) 2026 Jesús Yeste Ramírez
+
 Este documento acota qué cubre exactamente la licencia del repositorio
 (`LICENSE`, Creative Commons Atribución-NoComercial-CompartirIgual 4.0
 Internacional) y reconoce el material de terceros al que el proyecto hace
