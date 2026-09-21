@@ -1,5 +1,7 @@
 # Hacking Study Planner
 
+[![Licencia: CC BY-NC-SA 4.0](https://img.shields.io/badge/Licencia-CC%20BY--NC--SA%204.0-0a7bbb.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+
 Planner de estudio de ciberseguridad — Roadmap eJPT · LionXSecurity
 
 Aplicación web de un solo archivo para organizar la preparación de
@@ -36,6 +38,11 @@ Siempre que:
   licencia, para que siga siendo libre para los demás.
 
 El texto completo está en [`LICENSE`](LICENSE).
+
+> GitHub solo detecta automáticamente 13 licencias y ninguna Creative Commons
+> salvo CC0, así que en la barra lateral del repositorio aparece como
+> «Other». Es normal y no afecta a su validez: la licencia que rige es la de
+> `LICENSE`.
 
 > **Nota:** una licencia NoComercial no cumple la definición de «código
 > abierto» de la OSI. Es una decisión deliberada: el contenido debe seguir
