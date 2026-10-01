@@ -10,13 +10,24 @@ eJPT, cada una con su sistema operativo, dificultad, técnicas implicadas,
 certificaciones para las que resulta relevante y un enlace a su resolución,
 y un roadmap paso a paso «De Cero a Junior Pentester».
 
-`data.json` reúne la base completa de la que sale esa selección: 532 máquinas
+`data.json` reúne la base completa de la que sale esa selección: 531 máquinas
 de Hack The Box, 18 retos, 58 máquinas de VulnHub y laboratorios de
 PortSwigger. La app filtra las que llevan la etiqueta eJPT.
 
-El progreso (máquinas resueltas y etapas del roadmap) se guarda solo en el
-navegador, con `localStorage`: no sale de tu equipo ni se comparte entre
-dispositivos.
+## Funciones
+
+- **Filtros y orden:** búsqueda sin tildes y por varias palabras, filtros por
+  estado, dificultad, sistema y certificación, y orden por dificultad, nombre o
+  pendientes primero. Pulsar una técnica o certificación de cualquier tarjeta
+  filtra por ella.
+- **Progreso y notas:** marca máquinas como resueltas (con la fecha) y añade
+  notas a cada una. Todo se guarda solo en el navegador (`localStorage`): no
+  sale de tu equipo.
+- **Copia de seguridad:** desde el pie de página puedes exportar el progreso a
+  un archivo JSON e importarlo en otro navegador o dispositivo. Al importar se
+  suma a lo que ya tengas, sin borrar nada.
+- **Instalable y sin conexión:** es una PWA. Se puede instalar como app y,
+  tras la primera visita, funciona sin conexión.
 
 ## Uso
 
@@ -24,10 +35,11 @@ Versión publicada: <https://vklf-official.github.io/hacking-study-planner/>
 
 En local hace falta un servidor estático, porque los navegadores no dejan leer
 `data.json` cuando la página se abre como archivo (`file://`). Desde la carpeta
-del proyecto:
+del proyecto, cualquiera de estas dos opciones:
 
 ```sh
-python3 -m http.server
+python3 -m http.server   # sin instalar nada
+npm start                # con Node.js 22 o superior
 ```
 
 y abre <http://localhost:8000>.
@@ -40,10 +52,46 @@ y abre <http://localhost:8000>.
 | `styles.css` | Estilos y diseño responsive                                       |
 | `app.js`     | Lógica de la aplicación y datos del roadmap                       |
 | `data.json`  | Fichas de máquinas, retos y laboratorios                          |
+| `sw.js`, `manifest.webmanifest`, `icons/` | Modo sin conexión e instalación como app |
+| `scripts/`   | Validador de datos, comprobador de enlaces, servidor y generador de iconos |
+| `tests/`     | Tests unitarios (`node:test`) y de extremo a extremo (Playwright) |
 
 La página no carga nada de terceros salvo las portadas de los cursos del
 roadmap (`lionxsecurity.es`); si no cargan, se ocultan. La CSP solo permite
-scripts y estilos del propio sitio.
+scripts y estilos del propio sitio, y la app se niega a funcionar dentro de un
+iframe (protección contra clickjacking, ya que GitHub Pages no permite enviar
+esa cabecera).
+
+## Desarrollo
+
+Requiere Node.js 22 o superior.
+
+```sh
+npm install          # instala Playwright (solo para los tests)
+npm run validate     # comprueba data.json
+npm run fix-data     # corrige lo que es seguro corregir solo y vuelve a validar
+npm test             # validación + tests unitarios + tests en los navegadores
+```
+
+Para los tests de navegador, la primera vez: `npx playwright install`.
+
+**Antes de tocar `data.json`**, ejecuta `npm run validate`. Comprueba que no
+haya fichas ni IP duplicadas, que las IP sean válidas, que los enlaces sean
+`https`, que las certificaciones estén en la lista conocida y que el formato
+sea el canónico. `npm run fix-data` normaliza espacios, alias de
+certificaciones y formato, pero nunca inventa datos: una IP estropeada, por
+ejemplo, la tienes que corregir tú.
+
+### Automatizaciones (GitHub Actions)
+
+- **CI** (cada PR y cada push a `main`): valida los datos, ejecuta los tests
+  unitarios y prueba la app en Chromium, Firefox y WebKit (el motor de
+  Safari), en escritorio y en móvil.
+- **Enlaces** (cada lunes): comprueba los más de 500 enlaces. Si alguno está
+  roto, abre o actualiza una incidencia con la etiqueta `enlaces-rotos`. En
+  YouTube detecta también los vídeos eliminados, cuya página sigue
+  respondiendo con normalidad. También se puede lanzar a mano desde la
+  pestaña *Actions*.
 
 ## Licencia
 

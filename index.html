@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://lionxsecurity.es; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://lionxsecurity.es; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>eJPT Study Planner — VKLF</title>
 <meta name="description" content="Plan de estudio para la certificación eJPT: máquinas de HackTheBox y VulnHub seleccionadas y un roadmap paso a paso para preparar el examen.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305070b'/%3E%3Cpath d='M8 11l5 5-5 5M16 21h8' fill='none' stroke='%23ff4d4d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="canonical" href="https://vklf-official.github.io/hacking-study-planner/">
 <meta name="theme-color" content="#05070b">
 <meta name="color-scheme" content="dark">
@@ -17,7 +19,12 @@
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="eJPT Study Planner">
 <meta property="og:description" content="Plan de estudio orientado a la certificación eJPT con máquinas de HackTheBox y VulnHub y un roadmap paso a paso.">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://vklf-official.github.io/hacking-study-planner/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hacking Study Planner: roadmap eJPT con máquinas de HackTheBox y VulnHub">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vklf-official.github.io/hacking-study-planner/og-image.png">
 <meta name="twitter:title" content="eJPT Study Planner">
 <meta name="twitter:description" content="Plan de estudio orientado a la certificación eJPT con máquinas de HackTheBox y VulnHub y un roadmap paso a paso.">
 <link rel="stylesheet" href="styles.css">
@@ -38,6 +45,21 @@
 </noscript>
 
 <div id="app"></div>
+
+<dialog id="note-dialog" class="note-dialog" aria-labelledby="note-dialog-title">
+  <div class="note-box">
+    <h2 class="note-title" id="note-dialog-title">Notas · <span id="note-dialog-name"></span></h2>
+    <label class="note-label" for="note-text">Lo que quieras recordar de esta máquina: puertos, ideas, qué te costó, qué aprendiste…</label>
+    <textarea id="note-text" class="note-text" maxlength="5000" rows="9" spellcheck="true"></textarea>
+    <div class="note-footer">
+      <span class="note-hint">Se guarda solo en este navegador · <span id="note-count">0 / 5000</span></span>
+      <div class="note-actions">
+        <button type="button" class="btn btn-writeup" data-action="note-cancel">Cancelar</button>
+        <button type="button" class="btn btn-resolve" data-action="note-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+</dialog>
 
 <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 

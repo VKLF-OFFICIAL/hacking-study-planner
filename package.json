@@ -1,0 +1,23 @@
+{
+  "name": "hacking-study-planner",
+  "private": true,
+  "description": "Planner de estudio de ciberseguridad — Roadmap eJPT · LionXSecurity",
+  "license": "CC-BY-NC-SA-4.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "fix-data": "node scripts/validate-data.mjs --fix",
+    "check-links": "node scripts/check-links.mjs",
+    "assets": "node scripts/generate-assets.mjs",
+    "test:unit": "node --test \"tests/unit/*.test.mjs\"",
+    "test:e2e": "playwright test",
+    "test": "npm run validate && npm run test:unit && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
