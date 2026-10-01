@@ -1838,7 +1838,7 @@
         "Active Directory Enumeration",
         "Enumerating domain information through SQL injection",
         "Obtaining domain RIDs through SQL injection",
-        "Applying brute-force attack  (SID = SID+RID) to obtain existing domain users [Python Scripting]",
+        "Applying brute-force attack (SID = SID+RID) to obtain existing domain users [Python Scripting]",
         "SMB Brute Force Attack (Crackmapexec)",
         "Enumerating AD existing users (rpcclient/rpcenum)",
         "Abusing Remote Management User group",
@@ -1884,7 +1884,7 @@
         "LFI (Local File Inclusion) - Unicode Normalization Vulnerability",
         "Abusing Sudoers Privilege",
         "Playing with pyinstxtractor and pycdc",
-        "Bypassing badchars and creating a new passwd archive  (Privilege Escalation)"
+        "Bypassing badchars and creating a new passwd archive (Privilege Escalation)"
       ],
       "certificaciones": [
         "eWPT",
@@ -2430,7 +2430,7 @@
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
-        "Information  Leakage wtf xd",
+        "Information Leakage wtf xd",
         "Joomla Enumeration",
         "Joomla Exploitation [Abusing Templates] [RCE]",
         "Decompression Challenge",
@@ -3426,7 +3426,7 @@
         "InvokePowerShellTcp.ps1 - PowerShell Reverse Shell",
         "ConPtyShell (AntonioCoco Utility) - Shell Improvement",
         "Certificate Signing Request Inspection - OpenSSL",
-        "Chisel  + Remote Port Forwarding + Proxychains - Creating a SOCKS5 tunnel",
+        "Chisel + Remote Port Forwarding + Proxychains - Creating a SOCKS5 tunnel",
         "Abusing Software Portal",
         "Traffic inspection with Tcpdump and Tshark",
         "URL Host Manipulation Attack + Intercepting authentications with Netcat",
@@ -3435,7 +3435,6 @@
         "SMB enumeration with authenticated user",
         "Jamovi <=1.6.18 Exploitation - Malicious OMV File (XSS Vulnerability - Cross-Site Scripting Attack)",
         "XSS + NodeJS Command Injection + InvokePowerShellTcp.ps1 (Nishang) Reverse Shell",
-        "ConPtyShell (AntonioCoco Utility) - Shell Improvement",
         "Abusing Certificate Services",
         "Playing with Certify.exe to find vulnerable templates",
         "PowerView.ps1 + ADCS.ps1 in order to generate a certificate request and get it approved by the CA",
@@ -6934,7 +6933,7 @@
         "Abusing the Structure of a URI to Achieve SSRF due to Bad Code Implementation",
         "Finding another LFI",
         "Explaining Trick to through Wrappers and Coding Changes, Achieve Command Execution",
-        "SSRF + LFI + PHP Filter Chain +  RCE",
+        "SSRF + LFI + PHP Filter Chain + RCE",
         "Abusing Sudoers Privilege + Git post-commit hooks (RCE)",
         "Abusing Sudoers Privilege (Systemctl and Systemd Malicious Service File) [Privilege Escalation]"
       ],
@@ -7518,17 +7517,6 @@
       "writeup": "https://www.hackingarticles.in/hack-the-box-friendzone-walkthrough/",
       "resuelta": false,
       "descripcion": "FriendZone is an easy difficulty Linux box which needs fair amount enumeration. By doing a zone transfer vhosts are discovered. There are open shares on samba which provides credentials for an admin panel. From there, an LFI is found which is leveraged to get RCE. A cron is found running which uses a writable module, making it vulnerable to hijacking."
-    },
-    {
-      "id": 312,
-      "nombre": "Fulcrum",
-      "ip": "",
-      "so": "Linux",
-      "dificultad": "Fácil",
-      "tecnicas": [],
-      "certificaciones": [],
-      "writeup": "https://www.hackingarticles.in/hack-the-box-fulcrum-walkthrough/",
-      "resuelta": false
     },
     {
       "id": 313,
@@ -12879,7 +12867,7 @@
       "dificultad": "Media",
       "tecnicas": [
         "EXTRA: Creating a double socks5 tunnel with chisel",
-        "EXTRA: Redirecting request flow with socat  to make services accessible",
+        "EXTRA: Redirecting request flow with socat to make services accessible",
         "EXTRA: Powershell script to find computers in the internal network",
         "EXTRA: Playing with xargs to increase the speed of port scanning with the Dual Proxy",
         "Web Enumeration",
@@ -13241,7 +13229,6 @@
         "EXTRA: Creation of a bash script to discover the open ports of the computers discovered in the internal network",
         "EXTRA: Jumping to Windows Dumbledore-PC machine",
         "EXTRA: Running chisel as a client from the Fawkes machine to reach the Dumbledore-PC machine",
-        "EXTRA: Creating a new socks5 connection through a new port",
         "EXTRA: Eternalblue (MS17-010) Exploitation in order to gain access to the Dumbledore-PC machine",
         "EXTRA: Uploading Chisel to the Windows machine",
         "EXTRA: Creating a new SOCKS5 connection to gain access to the Matrix 1 machine (Triple SOCKS5 Proxy)",

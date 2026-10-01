@@ -1,0 +1,51 @@
+name: Enlaces
+
+# Revisa cada semana que los writeups y descargas sigan existiendo. Si hay
+# enlaces rotos abre (o actualiza) una incidencia con la etiqueta enlaces-rotos.
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # lunes a las 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  enlaces:
+    name: Comprobar enlaces
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Comprobar enlaces
+        id: check
+        run: |
+          set +e
+          node scripts/check-links.mjs --report links-report.md
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+      - name: Resumen
+        if: always()
+        run: |
+          if [ -f links-report.md ]; then cat links-report.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Abrir o actualizar la incidencia
+        if: steps.check.outputs.code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create enlaces-rotos --color B60205 --description "Enlaces caídos detectados automáticamente" 2>/dev/null || true
+          num=$(gh issue list --label enlaces-rotos --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue edit "$num" --body-file links-report.md
+            gh issue comment "$num" --body "Revisión del $(date -u +%F): sigue habiendo enlaces rotos. El informe de arriba está actualizado."
+          else
+            gh issue create --title "Enlaces rotos en data.json" --label enlaces-rotos --body-file links-report.md
+          fi
+      - name: Fallo del comprobador
+        if: steps.check.outputs.code != '0' && steps.check.outputs.code != '1'
+        run: |
+          echo "El script de comprobación falló (código ${{ steps.check.outputs.code }})."
+          exit 1

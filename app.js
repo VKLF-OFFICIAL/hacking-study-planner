@@ -10,7 +10,18 @@ const SHEETS = {
 };
 const SHEET_KEYS = Object.keys(SHEETS);
 const TAB_KEYS = [...SHEET_KEYS, 'roadmap'];
-const FILTER_KEYS = ['dificultad', 'so', 'cert'];
+const FILTER_KEYS = ['dificultad', 'so', 'cert', 'estado', 'tecnica'];
+const FILTER_LABELS = { dificultad: 'Dificultad', so: 'Sistema', cert: 'Certificación', estado: 'Estado', tecnica: 'Técnica' };
+const ESTADOS = ['Pendiente', 'Resuelta'];
+const SORTS = {
+  orden: 'Orden original',
+  dificultad: 'Dificultad',
+  nombre: 'Nombre (A-Z)',
+  pendientes: 'Pendientes primero',
+};
+const NOTE_MAX = 5000;
+const EXPORT_APP_ID = 'hacking-study-planner';
+const EXPORT_VERSION = 1;
 const DIFF_ORDER = ['Fácil', 'Media', 'Difícil', 'Insane'];
 const STORAGE_STATE = 'planning_state';
 const STORAGE_ROADMAP = 'roadmap_progress';
@@ -25,10 +36,12 @@ let ROADMAP_PROGRESS = {}; // { stageId: true }
 let activeTab = 'hackthebox';
 
 const tabFilters = {};
+const tabSort = {};
 const filtersOpen = {};
 const searchTimers = {};
 for (const k of SHEET_KEYS) {
-  tabFilters[k] = { search: '', dificultad: '', so: '', cert: '' };
+  tabFilters[k] = { search: '', dificultad: '', so: '', cert: '', estado: '', tecnica: '' };
+  tabSort[k] = 'orden';
   filtersOpen[k] = false;
 }
 
@@ -134,6 +147,9 @@ const ICONS = {
   note:     _sv('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/>'),
   medal:    _sv('<circle cx="12" cy="15" r="6"/><path d="M8.6 9.6L6 2h12l-2.6 7.6"/>'),
   case:     _sv('<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>'),
+  upload:   _sv('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>'),
+  install:  _sv('<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/>'),
+  edit:     _sv('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'),
   alert:    _sv('<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>'),
 };
 
@@ -359,13 +375,57 @@ const EJPT_ROADMAP = [
   },
 ];
 
+
 // ============================================================
-// Maquinas: estado resuelto
+// Maquinas: estado guardado (resuelta, fecha y notas)
+// STATE[sheet][id] = { resuelta?: true, fecha?: 'AAAA-MM-DD', nota?: '...' }
 // ============================================================
-function isResolved(sheetKey, item) {
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function todayISO() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+const _dateFmt = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+function formatDate(iso) {
+  const d = new Date(`${iso}T00:00:00`);
+  return Number.isNaN(d.getTime()) ? iso : _dateFmt.format(d);
+}
+
+function getEntry(sheetKey, id) {
   const sheet = STATE[sheetKey];
-  const entry = isPlainObject(sheet) ? sheet[String(item.id)] : null;
-  return isPlainObject(entry) && entry.resuelta === true;
+  const entry = isPlainObject(sheet) ? sheet[String(id)] : null;
+  return isPlainObject(entry) ? entry : null;
+}
+
+// Mezcla patch en la entrada; los valores vacios borran el campo y una
+// entrada sin campos desaparece.
+function setEntry(sheetKey, id, patch) {
+  if (!isPlainObject(STATE[sheetKey])) STATE[sheetKey] = {};
+  const next = { ...(getEntry(sheetKey, id) || {}), ...patch };
+  for (const k of Object.keys(next)) {
+    if (next[k] === undefined || next[k] === '' || next[k] === false) delete next[k];
+  }
+  if (Object.keys(next).length) STATE[sheetKey][String(id)] = next;
+  else delete STATE[sheetKey][String(id)];
+  saveJSON(STORAGE_STATE, STATE);
+}
+
+function isResolved(sheetKey, item) {
+  const e = getEntry(sheetKey, item.id);
+  return !!e && e.resuelta === true;
+}
+
+function getNote(sheetKey, item) {
+  const e = getEntry(sheetKey, item.id);
+  return e && typeof e.nota === 'string' ? e.nota : '';
+}
+
+function getResolvedDate(sheetKey, item) {
+  const e = getEntry(sheetKey, item.id);
+  return e && typeof e.fecha === 'string' && ISO_DATE.test(e.fecha) ? e.fecha : '';
 }
 
 function getItem(sheetKey, id) {
@@ -380,27 +440,80 @@ function resolveBtnContent(resolved) {
   return resolved ? `${ICONS.check}<span>Resuelta</span>` : `${ICONS.circle}<span>Resolver</span>`;
 }
 
+// Repinta una tarjeta en su sitio, o todo el listado si el cambio afecta a
+// un filtro activo (p. ej. "Pendiente"). Devuelve el foco a la tarjeta.
+function refreshCard(sheetKey, item, focusSelector) {
+  const card = document.getElementById(cardId(sheetKey, item.id));
+  if (!card) return;
+  if (tabFilters[sheetKey].estado || tabSort[sheetKey] === 'pendientes') {
+    const cards = [...document.querySelectorAll(`#grid-${sheetKey} .card`)];
+    const idx = cards.indexOf(card);
+    updateResults(sheetKey);
+    const again = document.getElementById(cardId(sheetKey, item.id));
+    const target = again || document.querySelectorAll(`#grid-${sheetKey} .card`)[idx];
+    const focusEl = target ? target.querySelector(focusSelector) || target.querySelector('.btn-resolve') : null;
+    (focusEl || document.getElementById(`search-${sheetKey}`))?.focus();
+    return;
+  }
+  const tpl = document.createElement('template');
+  tpl.innerHTML = renderCard(item, sheetKey).trim();
+  const fresh = tpl.content.firstElementChild;
+  card.replaceWith(fresh);
+  fresh.querySelector(focusSelector)?.focus();
+}
+
 function toggleResolved(sheetKey, id) {
   const item = getItem(sheetKey, id);
   if (!item) return;
   const resolved = !isResolved(sheetKey, item);
-  if (!isPlainObject(STATE[sheetKey])) STATE[sheetKey] = {};
-  if (resolved) STATE[sheetKey][String(item.id)] = { resuelta: true };
-  else delete STATE[sheetKey][String(item.id)];
-  saveJSON(STORAGE_STATE, STATE);
-
-  const card = document.getElementById(cardId(sheetKey, item.id));
-  if (card) {
-    card.classList.toggle('resolved', resolved);
-    const btn = card.querySelector('.btn-resolve');
-    if (btn) {
-      btn.classList.toggle('done', resolved);
-      btn.setAttribute('aria-pressed', String(resolved));
-      btn.innerHTML = resolveBtnContent(resolved);
-    }
-  }
+  setEntry(sheetKey, item.id, resolved
+    ? { resuelta: true, fecha: getResolvedDate(sheetKey, item) || todayISO() }
+    : { resuelta: undefined, fecha: undefined });
+  refreshCard(sheetKey, item, '.btn-resolve');
   toast(resolved ? `${item.nombre}: resuelta` : `${item.nombre}: pendiente`);
   updateStats();
+}
+
+// ============================================================
+// Notas
+// ============================================================
+let noteTarget = null;
+
+function openNote(sheetKey, id) {
+  const item = getItem(sheetKey, id);
+  const dialog = document.getElementById('note-dialog');
+  if (!item || !dialog || typeof dialog.showModal !== 'function') return;
+  noteTarget = { sheetKey, id: item.id };
+  document.getElementById('note-dialog-name').textContent = item.nombre;
+  const text = document.getElementById('note-text');
+  text.value = getNote(sheetKey, item);
+  updateNoteCount();
+  dialog.showModal();
+  text.focus();
+}
+
+function updateNoteCount() {
+  const text = document.getElementById('note-text');
+  const count = document.getElementById('note-count');
+  if (text && count) count.textContent = `${text.value.length} / ${NOTE_MAX}`;
+}
+
+function closeNote(save) {
+  const dialog = document.getElementById('note-dialog');
+  if (!dialog) return;
+  const target = noteTarget;
+  noteTarget = null;
+  if (dialog.open) dialog.close();
+  if (!target) return;
+  const item = getItem(target.sheetKey, target.id);
+  if (!item) return;
+  if (save) {
+    const value = document.getElementById('note-text').value.slice(0, NOTE_MAX).trim();
+    const changed = value !== getNote(target.sheetKey, item);
+    setEntry(target.sheetKey, item.id, { nota: value });
+    if (changed) toast(value ? 'Nota guardada' : 'Nota borrada');
+  }
+  refreshCard(target.sheetKey, item, '.btn-note');
 }
 
 // ============================================================
@@ -434,7 +547,7 @@ function updateStats() {
 }
 
 // ============================================================
-// Filtros
+// Filtros y orden
 // ============================================================
 const _searchIndex = new WeakMap();
 function searchIndex(item) {
@@ -450,7 +563,7 @@ function searchIndex(item) {
 }
 
 // ignore: filtro que no se aplica (para calcular las opciones de ese grupo)
-function matches(item, f, ignore) {
+function matches(sheetKey, item, f, ignore) {
   const words = fold(f.search).split(/\s+/).filter(Boolean);
   if (words.length) {
     const idx = searchIndex(item);
@@ -459,6 +572,11 @@ function matches(item, f, ignore) {
   if (ignore !== 'dificultad' && f.dificultad && item.dificultad !== f.dificultad) return false;
   if (ignore !== 'so' && f.so && item.so !== f.so) return false;
   if (ignore !== 'cert' && f.cert && !(item.certificaciones || []).some(c => certBase(c) === f.cert)) return false;
+  if (ignore !== 'tecnica' && f.tecnica && !(item.tecnicas || []).includes(f.tecnica)) return false;
+  if (ignore !== 'estado' && f.estado) {
+    const resolved = isResolved(sheetKey, item);
+    if (f.estado === 'Resuelta' ? !resolved : resolved) return false;
+  }
   return true;
 }
 
@@ -466,13 +584,31 @@ function sortEs(values) {
   return values.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
 }
 
+function diffRank(d) {
+  const i = DIFF_ORDER.indexOf(d);
+  return i === -1 ? DIFF_ORDER.length : i;
+}
+
+function sortItems(sheetKey, items) {
+  const mode = tabSort[sheetKey];
+  if (mode === 'orden') return items;
+  const byName = (a, b) => String(a.nombre).localeCompare(String(b.nombre), 'es', { sensitivity: 'base', numeric: true });
+  const list = items.slice();
+  if (mode === 'nombre') list.sort(byName);
+  else if (mode === 'dificultad') list.sort((a, b) => diffRank(a.dificultad) - diffRank(b.dificultad) || byName(a, b));
+  else if (mode === 'pendientes') {
+    // sort es estable: dentro de cada grupo se conserva el orden original
+    list.sort((a, b) => Number(isResolved(sheetKey, a)) - Number(isResolved(sheetKey, b)));
+  }
+  return list;
+}
+
 const _options = {};
 function staticOptions(sheetKey) {
   if (!_options[sheetKey]) {
     const items = DATA[sheetKey];
     const diffs = [...new Set(items.map(i => i.dificultad).filter(Boolean))];
-    const rank = d => { const i = DIFF_ORDER.indexOf(d); return i === -1 ? DIFF_ORDER.length : i; };
-    diffs.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'es'));
+    diffs.sort((a, b) => diffRank(a) - diffRank(b) || a.localeCompare(b, 'es'));
     const sos = sortEs([...new Set(items.map(i => i.so).filter(Boolean))]);
     _options[sheetKey] = { dificultad: diffs, so: sos };
   }
@@ -486,7 +622,7 @@ function certOptions(sheetKey) {
   const f = tabFilters[sheetKey];
   const set = new Set();
   for (const item of DATA[sheetKey]) {
-    if (!matches(item, f, 'cert')) continue;
+    if (!matches(sheetKey, item, f, 'cert')) continue;
     for (const c of item.certificaciones || []) set.add(certBase(c));
   }
   set.delete(TARGET_CERT);
@@ -512,12 +648,35 @@ function chipGroup(sheetKey, key, label, values, current) {
     </div>`;
 }
 
+// Chips (y etiquetas de las tarjetas): pulsar el valor activo lo desmarca.
 function setFilter(btn) {
   const { sheet, key, val } = btn.dataset;
   if (!SHEET_KEYS.includes(sheet) || !FILTER_KEYS.includes(key)) return;
   const f = tabFilters[sheet];
-  f[key] = f[key] === val ? '' : val;
+  const value = key === 'cert' ? certBase(val) : val;
+  f[key] = f[key] === value ? '' : value;
   updateResults(sheet);
+  // Desde una tarjeta, se sube a los controles para ver el filtro aplicado
+  if (btn.classList.contains('tag')) {
+    const controls = document.getElementById(`controls-${sheet}`);
+    if (controls) controls.scrollIntoView({ block: 'start' });
+    const pill = document.querySelector(`#active-filters-${sheet} [data-key="${key}"]`);
+    (pill || document.getElementById(`search-${sheet}`))?.focus({ preventScroll: true });
+  }
+}
+
+function removeFilter(sheetKey, key) {
+  if (!SHEET_KEYS.includes(sheetKey) || !FILTER_KEYS.includes(key)) return;
+  tabFilters[sheetKey][key] = '';
+  updateResults(sheetKey);
+  const next = document.querySelector(`#active-filters-${sheetKey} .filter-pill`);
+  (next || document.getElementById(`search-${sheetKey}`))?.focus();
+}
+
+function setSort(sheetKey, value) {
+  if (!SHEET_KEYS.includes(sheetKey) || !Object.prototype.hasOwnProperty.call(SORTS, value)) return;
+  tabSort[sheetKey] = value;
+  updateResults(sheetKey);
 }
 
 function setSearch(sheetKey, value) {
@@ -562,12 +721,26 @@ function updateFilterBtn(sheetKey) {
   }
 }
 
+// Filtros activos visibles aunque el panel este cerrado; cada uno se quita
+// con un clic.
+function renderActiveFilters(sheetKey) {
+  const wrap = document.getElementById(`active-filters-${sheetKey}`);
+  if (!wrap) return;
+  const f = tabFilters[sheetKey];
+  const pills = FILTER_KEYS.filter(k => f[k]).map(k =>
+    `<button type="button" class="filter-pill" data-action="remove-filter" data-sheet="${esc(sheetKey)}" data-key="${esc(k)}" aria-label="Quitar filtro ${esc(FILTER_LABELS[k])}: ${esc(f[k])}">
+      <span class="filter-pill-key">${esc(FILTER_LABELS[k])}:</span><span class="filter-pill-val">${esc(f[k])}</span>${ICONS.close}
+    </button>`).join('');
+  wrap.innerHTML = pills;
+  wrap.hidden = !pills;
+}
+
 // Repinta resultados, contador y estado de los chips sin tocar el campo de
 // busqueda (para no perder el foco ni la posicion del cursor).
 function updateResults(sheetKey) {
   const f = tabFilters[sheetKey];
   const items = DATA[sheetKey];
-  const filtered = items.filter(i => matches(i, f));
+  const filtered = sortItems(sheetKey, items.filter(i => matches(sheetKey, i, f)));
 
   const grid = document.getElementById(`grid-${sheetKey}`);
   if (grid) {
@@ -602,6 +775,9 @@ function updateResults(sheetKey) {
       c.setAttribute('aria-pressed', String(on));
     });
   }
+  const sort = document.getElementById(`sort-${sheetKey}`);
+  if (sort && sort.value !== tabSort[sheetKey]) sort.value = tabSort[sheetKey];
+  renderActiveFilters(sheetKey);
   updateFilterBtn(sheetKey);
 }
 
@@ -613,22 +789,35 @@ function renderBadgeDiff(d) {
   return `<span class="badge-diff ${diffClass(d)}">${esc(d)}</span>`;
 }
 
-function renderTags(arr, cls = '') {
-  return arr.map(t => `<span class="tag${cls ? ' ' + cls : ''}" title="${esc(t)}">${esc(t)}</span>`).join('');
+// Las etiquetas son botones: filtran el listado por esa tecnica o certificacion.
+function renderTags(sheetKey, arr, key) {
+  const f = tabFilters[sheetKey];
+  const what = key === 'cert' ? 'certificación' : 'técnica';
+  return arr.map(t => {
+    const value = key === 'cert' ? certBase(t) : t;
+    const on = f[key] === value;
+    return `<button type="button" class="tag${key === 'cert' ? ' cert' : ''}${on ? ' active' : ''}" data-action="filter" data-sheet="${esc(sheetKey)}" data-key="${key}" data-val="${esc(t)}" aria-pressed="${on}" title="Filtrar por ${what}: ${esc(t)}">${esc(t)}</button>`;
+  }).join('');
 }
 
 function renderCard(item, sheetKey) {
   const resolved = isResolved(sheetKey, item);
+  const date = resolved ? getResolvedDate(sheetKey, item) : '';
+  const note = getNote(sheetKey, item);
   const writeup = safeUrl(item.writeup);
   const download = safeUrl(item.enlace || item.link_descarga);
   const name = esc(item.nombre);
 
   const techTags = Array.isArray(item.tecnicas) && item.tecnicas.length
-    ? `<div class="section-divider">Técnicas</div><div class="tags">${renderTags(item.tecnicas)}</div>` : '';
+    ? `<div class="section-divider">Técnicas</div><div class="tags">${renderTags(sheetKey, item.tecnicas, 'tecnica')}</div>` : '';
   const certTags = Array.isArray(item.certificaciones) && item.certificaciones.length
-    ? `<div class="section-divider">Certificaciones</div><div class="tags">${renderTags(item.certificaciones, 'cert')}</div>` : '';
+    ? `<div class="section-divider">Certificaciones</div><div class="tags">${renderTags(sheetKey, item.certificaciones, 'cert')}</div>` : '';
   const desc = item.descripcion
     ? `<p class="card-desc" title="${esc(item.descripcion)}">${esc(item.descripcion)}</p>` : '';
+  const noteBlock = note
+    ? `<div class="card-note"><span class="card-note-label">${ICONS.note}Tu nota</span><p class="card-note-text">${esc(note)}</p></div>` : '';
+  const dateBlock = date
+    ? `<p class="card-date">${ICONS.check}Resuelta el <time datetime="${esc(date)}">${esc(formatDate(date))}</time></p>` : '';
 
   return `
   <article class="card ${diffClass(item.dificultad)}${resolved ? ' resolved' : ''}" id="${esc(cardId(sheetKey, item.id))}">
@@ -643,10 +832,13 @@ function renderCard(item, sheetKey) {
     ${desc}
     ${techTags}
     ${certTags}
+    ${noteBlock}
+    ${dateBlock}
     <div class="card-actions">
       <button type="button" class="btn btn-resolve${resolved ? ' done' : ''}" data-action="resolve" data-sheet="${esc(sheetKey)}" data-id="${esc(item.id)}" aria-pressed="${resolved}">${resolveBtnContent(resolved)}</button>
       ${download ? `<a class="btn btn-lab" href="${esc(download)}" target="_blank" rel="noopener noreferrer" aria-label="Descargar ${name} (se abre en otra pestaña)">${ICONS.download}<span>Descargar</span></a>` : ''}
       ${writeup ? `<a class="btn btn-writeup" href="${esc(writeup)}" target="_blank" rel="noopener noreferrer" aria-label="Writeup de ${name} (se abre en otra pestaña)">${ICONS.play}<span>Writeup</span></a>` : ''}
+      <button type="button" class="btn btn-note${note ? ' has-note' : ''}" data-action="note" data-sheet="${esc(sheetKey)}" data-id="${esc(item.id)}" aria-label="${note ? 'Editar' : 'Añadir'} notas de ${name}" title="${note ? 'Editar nota' : 'Añadir nota'}">${ICONS.edit}</button>
     </div>
   </article>`;
 }
@@ -660,9 +852,11 @@ function renderSheet(sheetKey) {
   const n = countActiveFilters(sheetKey);
   const opts = staticOptions(sheetKey);
   const label = SHEETS[sheetKey].label;
+  const sortOptions = Object.entries(SORTS).map(([v, t]) =>
+    `<option value="${v}"${tabSort[sheetKey] === v ? ' selected' : ''}>${esc(t)}</option>`).join('');
 
   return `
-  <div class="controls">
+  <div class="controls" id="controls-${sheetKey}">
     <div class="controls-inner">
       <div class="controls-search-row">
         <div class="search-wrap" role="search">
@@ -675,14 +869,18 @@ function renderSheet(sheetKey) {
           data-action="toggle-filters" data-sheet="${sheetKey}" aria-expanded="${open}" aria-controls="filters-panel-${sheetKey}">
           ${ICONS.sliders}<span>Filtros</span><span class="filter-active-count"${n ? '' : ' hidden'}>${n}</span>
         </button>
+        <select class="sort-select" id="sort-${sheetKey}" data-action="sort" data-sheet="${sheetKey}" aria-label="Ordenar ${esc(label)}">${sortOptions}</select>
         <span class="results-count" id="count-${sheetKey}" aria-live="polite"></span>
       </div>
+      <div class="active-filters" id="active-filters-${sheetKey}" hidden></div>
       <div class="filters-panel${open ? ' open' : ''}" id="filters-panel-${sheetKey}"${open ? '' : ' inert'}>
         <div class="filters">
+          ${chipGroup(sheetKey, 'estado', 'Estado', ESTADOS, f.estado)}
           ${chipGroup(sheetKey, 'dificultad', 'Dificultad', opts.dificultad, f.dificultad)}
           ${chipGroup(sheetKey, 'so', 'Sistema', opts.so, f.so)}
           <div id="cert-chips-${sheetKey}"></div>
           <div class="filter-actions">
+            <p class="filter-hint">Consejo: pulsa una técnica o certificación en cualquier tarjeta para filtrar por ella.</p>
             <button type="button" class="chip-clear" data-action="clear-filters" data-sheet="${sheetKey}">${ICONS.close}<span>Limpiar filtros</span></button>
           </div>
         </div>
@@ -698,18 +896,22 @@ function renderSheet(sheetKey) {
 // ============================================================
 // Roadmap
 // ============================================================
-function loadRoadmapProgress() {
-  const raw = loadJSON(STORAGE_ROADMAP);
+function normalizeRoadmap(raw) {
   const ids = new Set(EJPT_ROADMAP.map(s => s.id));
   const out = {};
   let changed = false;
-  for (const [k, v] of Object.entries(raw)) {
+  for (const [k, v] of Object.entries(isPlainObject(raw) ? raw : {})) {
     if (v !== true) { changed = true; continue; }
     if (ids.has(k)) out[k] = true;
     // Formato antiguo: la clave era la posicion de la etapa.
     else if (/^\d+$/.test(k) && EJPT_ROADMAP[Number(k)]) { out[EJPT_ROADMAP[Number(k)].id] = true; changed = true; }
     else changed = true;
   }
+  return { out, changed };
+}
+
+function loadRoadmapProgress() {
+  const { out, changed } = normalizeRoadmap(loadJSON(STORAGE_ROADMAP));
   if (changed) saveJSON(STORAGE_ROADMAP, out);
   return out;
 }
@@ -847,6 +1049,108 @@ function renderRoadmap() {
 }
 
 // ============================================================
+// Copia de seguridad: exportar e importar el progreso
+// ============================================================
+function exportProgress() {
+  const payload = {
+    app: EXPORT_APP_ID,
+    version: EXPORT_VERSION,
+    exportedAt: new Date().toISOString(),
+    planning_state: STATE,
+    roadmap_progress: ROADMAP_PROGRESS,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `hacking-study-planner-progreso-${todayISO()}.json`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast('Progreso exportado');
+}
+
+// Limpia lo importado: solo hojas e ids conocidos y campos con el tipo esperado.
+function sanitizeState(raw) {
+  const out = {};
+  if (!isPlainObject(raw)) return out;
+  for (const sheet of SHEET_KEYS) {
+    if (!isPlainObject(raw[sheet])) continue;
+    for (const [id, e] of Object.entries(raw[sheet])) {
+      if (!/^[\w-]{1,64}$/.test(id) || !isPlainObject(e)) continue;
+      const entry = {};
+      if (e.resuelta === true) entry.resuelta = true;
+      if (entry.resuelta && typeof e.fecha === 'string' && ISO_DATE.test(e.fecha)) entry.fecha = e.fecha;
+      if (typeof e.nota === 'string' && e.nota.trim()) entry.nota = e.nota.slice(0, NOTE_MAX);
+      if (Object.keys(entry).length) (out[sheet] ||= {})[id] = entry;
+    }
+  }
+  return out;
+}
+
+// Mezcla sin perder nada: una maquina resuelta en cualquiera de los dos lados
+// queda resuelta (con la fecha mas antigua) y las notas distintas se unen.
+function mergeState(current, incoming) {
+  const out = sanitizeState(current);
+  for (const [sheet, entries] of Object.entries(incoming)) {
+    for (const [id, inc] of Object.entries(entries)) {
+      const cur = (out[sheet] ||= {})[id] || {};
+      const next = { ...cur };
+      if (inc.resuelta) {
+        next.resuelta = true;
+        const dates = [cur.fecha, inc.fecha].filter(Boolean).sort();
+        if (dates.length) next.fecha = dates[0];
+      }
+      if (inc.nota && inc.nota !== cur.nota) {
+        next.nota = cur.nota ? `${cur.nota}\n\n— Importado —\n${inc.nota}`.slice(0, NOTE_MAX) : inc.nota;
+      }
+      out[sheet][id] = next;
+    }
+  }
+  return out;
+}
+
+async function importProgress(file) {
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { toast('El archivo es demasiado grande'); return; }
+  let parsed;
+  try {
+    parsed = JSON.parse(await file.text());
+  } catch {
+    toast('El archivo no es un JSON válido');
+    return;
+  }
+  let rawState, rawRoadmap;
+  if (isPlainObject(parsed) && parsed.app === EXPORT_APP_ID) {
+    if (typeof parsed.version !== 'number' || parsed.version > EXPORT_VERSION) {
+      toast('La copia es de una versión más nueva de la app');
+      return;
+    }
+    rawState = parsed.planning_state;
+    rawRoadmap = parsed.roadmap_progress;
+  } else if (isPlainObject(parsed) && SHEET_KEYS.some(k => isPlainObject(parsed[k]))) {
+    rawState = parsed; // estado en bruto (contenido de localStorage)
+  } else {
+    toast('El archivo no es una copia de Hacking Study Planner');
+    return;
+  }
+  const incoming = sanitizeState(rawState);
+  STATE = mergeState(STATE, incoming);
+  saveJSON(STORAGE_STATE, STATE);
+  const { out: rm } = normalizeRoadmap(rawRoadmap);
+  ROADMAP_PROGRESS = { ...ROADMAP_PROGRESS, ...rm };
+  saveJSON(STORAGE_ROADMAP, ROADMAP_PROGRESS);
+
+  const machines = Object.values(incoming).reduce((n, s) => n + Object.values(s).filter(e => e.resuelta).length, 0);
+  // Se repintan las pestañas ya montadas
+  document.querySelectorAll('.tab-panel').forEach(p => { delete p.dataset.mounted; p.innerHTML = ''; });
+  mountTab(activeTab);
+  updateStats();
+  toast(`Importado: ${machines} máquinas resueltas y ${Object.keys(rm).length} etapas`);
+}
+
+// ============================================================
 // App
 // ============================================================
 function mountTab(key) {
@@ -893,7 +1197,22 @@ function renderApp() {
         </div>
       </header>
     </div>
-    <main>${panels}</main>`;
+    <main>${panels}</main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-backup">
+          <h2 class="footer-title">Tu progreso</h2>
+          <p class="footer-note">Las máquinas resueltas, las notas y el roadmap se guardan solo en este navegador. Exporta una copia para no perderlos o para pasarlos a otro dispositivo; al importar se suman a lo que ya tengas.</p>
+          <div class="footer-actions">
+            <button type="button" class="btn btn-writeup" data-action="export">${ICONS.download}<span>Exportar progreso</span></button>
+            <button type="button" class="btn btn-writeup" data-action="import">${ICONS.upload}<span>Importar progreso</span></button>
+            <button type="button" class="btn btn-writeup" data-action="install" id="install-btn"${deferredInstall ? '' : ' hidden'}>${ICONS.install}<span>Instalar app</span></button>
+          </div>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+        <p class="footer-legal">Hacking Study Planner · <a href="https://github.com/VKLF-OFFICIAL/hacking-study-planner" target="_blank" rel="noopener noreferrer">Código fuente</a> · Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></p>
+      </div>
+    </footer>`;
 
   mountTab(activeTab);
   updateStats();
@@ -916,6 +1235,40 @@ function switchTab(key, focus = false) {
 }
 
 // ============================================================
+// Instalacion como app (PWA)
+// ============================================================
+let deferredInstall = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstall = e;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.hidden = false;
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstall = null;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.hidden = true;
+  toast('App instalada');
+});
+
+async function installApp() {
+  if (!deferredInstall) return;
+  const prompt = deferredInstall;
+  deferredInstall = null;
+  prompt.prompt();
+  try { await prompt.userChoice; } catch { /* cancelado */ }
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.hidden = true;
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
+  navigator.serviceWorker.register('sw.js').catch(() => { /* sin modo offline */ });
+}
+
+// ============================================================
 // Eventos (delegados: no hay manejadores en linea, lo que permite una CSP estricta)
 // ============================================================
 document.addEventListener('click', e => {
@@ -925,18 +1278,46 @@ document.addEventListener('click', e => {
   switch (action) {
     case 'tab': switchTab(el.dataset.tab); break;
     case 'filter': setFilter(el); break;
+    case 'remove-filter': removeFilter(sheet, el.dataset.key); break;
     case 'toggle-filters': toggleFilters(sheet); break;
     case 'clear-filters': clearFilters(sheet); break;
     case 'resolve': toggleResolved(sheet, el.dataset.id); break;
+    case 'note': openNote(sheet, el.dataset.id); break;
+    case 'note-save': closeNote(true); break;
+    case 'note-cancel': closeNote(false); break;
     case 'rm-toggle': toggleRoadmapStage(el); break;
     case 'rm-mark': markRoadmapStage(el.dataset.stage); break;
+    case 'export': exportProgress(); break;
+    case 'import': document.getElementById('import-file')?.click(); break;
+    case 'install': installApp(); break;
   }
 });
 
 document.addEventListener('input', e => {
   const el = e.target;
   if (el instanceof HTMLInputElement && el.dataset.action === 'search') setSearch(el.dataset.sheet, el.value);
+  else if (el.id === 'note-text') updateNoteCount();
 });
+
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el instanceof HTMLSelectElement && el.dataset.action === 'sort') setSort(el.dataset.sheet, el.value);
+  else if (el instanceof HTMLInputElement && el.id === 'import-file') {
+    importProgress(el.files && el.files[0]);
+    el.value = '';
+  }
+});
+
+// Dialogo de notas: Escape cancela; clic fuera del cuadro, tambien.
+(function () {
+  const dialog = document.getElementById('note-dialog');
+  if (!dialog) return;
+  dialog.addEventListener('cancel', e => { e.preventDefault(); closeNote(false); });
+  dialog.addEventListener('click', e => { if (e.target === dialog) closeNote(false); });
+  dialog.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); closeNote(true); }
+  });
+})();
 
 // Teclado en la barra de pestañas (patron WAI-ARIA tabs)
 document.addEventListener('keydown', e => {
@@ -1012,7 +1393,7 @@ function prepareData(raw) {
   return out;
 }
 
-function showLoadError(err) {
+function showMessage(titleText, bodyText, action) {
   hideSplash();
   const app = document.getElementById('app');
   if (!app) return;
@@ -1023,24 +1404,45 @@ function showLoadError(err) {
   icon.className = 'load-error-icon';
   icon.innerHTML = ICONS.alert;
   const title = document.createElement('h1');
-  title.textContent = 'No se pudieron cargar los datos';
+  title.textContent = titleText;
   const msg = document.createElement('p');
-  if (location.protocol === 'file:') {
-    msg.textContent = 'Los navegadores no permiten leer data.json cuando la página se abre como archivo local. ' +
-      'Sírvela desde un servidor: en la carpeta del proyecto ejecuta «python3 -m http.server» y abre http://localhost:8000.';
-  } else {
-    msg.textContent = `Detalle: ${err && err.message ? err.message : err}.`;
-  }
+  msg.textContent = bodyText;
+  box.append(icon, title, msg);
+  if (action) box.append(action);
+  app.replaceChildren(box);
+}
+
+function showLoadError(err) {
   const retry = document.createElement('button');
   retry.type = 'button';
   retry.className = 'btn btn-resolve';
   retry.textContent = 'Reintentar';
   retry.addEventListener('click', () => location.reload());
-  box.append(icon, title, msg, retry);
-  app.replaceChildren(box);
+  showMessage('No se pudieron cargar los datos', location.protocol === 'file:'
+    ? 'Los navegadores no permiten leer data.json cuando la página se abre como archivo local. ' +
+      'Sírvela desde un servidor: en la carpeta del proyecto ejecuta «python3 -m http.server» y abre http://localhost:8000.'
+    : `Detalle: ${err && err.message ? err.message : err}.`, retry);
+}
+
+// Proteccion contra clickjacking: GitHub Pages no permite enviar la cabecera
+// frame-ancestors, asi que la app se niega a funcionar dentro de un iframe.
+function isFramed() {
+  try { return window.top !== window.self; } catch { return true; }
+}
+
+function showFramedNotice() {
+  const link = document.createElement('a');
+  link.className = 'btn btn-resolve';
+  link.href = location.href;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = 'Abrir en una pestaña nueva';
+  showMessage('Esta página no se puede mostrar incrustada',
+    'Por seguridad, Hacking Study Planner solo funciona abierto directamente en el navegador.', link);
 }
 
 async function init() {
+  if (isFramed()) { showFramedNotice(); return; }
   setSplashProgress(20);
   try {
     const resp = await fetch('data.json', { cache: 'no-cache' });
@@ -1052,13 +1454,14 @@ async function init() {
     return;
   }
   setSplashProgress(85);
-  STATE = loadJSON(STORAGE_STATE);
+  STATE = sanitizeState(loadJSON(STORAGE_STATE));
   ROADMAP_PROGRESS = loadRoadmapProgress();
   const fromHash = location.hash.slice(1);
   if (TAB_KEYS.includes(fromHash)) activeTab = fromHash;
   setSplashProgress(100);
   renderApp();
   setTimeout(hideSplash, 150);
+  registerServiceWorker();
 }
 
 init();
