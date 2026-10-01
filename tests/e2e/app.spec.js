@@ -228,6 +228,9 @@ test('pestañas: flechas del teclado y enlace directo con #', async ({ app: page
 
 for (const width of [320, 390, 768, 1280]) {
   test(`sin desplazamiento horizontal a ${width}px`, async ({ app: page }) => {
+    // Se mide la maquetacion, no las animaciones: con movimiento reducido las
+    // etapas se despliegan al instante (y se prueba esa ruta del CSS).
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width, height: 800 });
     for (const tab of ['hackthebox', 'vulnhub', 'roadmap']) {
       await page.click(`#navbtn-${tab}`);
