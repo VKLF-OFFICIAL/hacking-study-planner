@@ -13,7 +13,8 @@
         "OpenSMTPD v2.0.0 Exploit",
         "SSH using Kerberos (gssapi)",
         "Abusing .k5login file",
-        "Abusing krb5.keytab file"
+        "Abusing krb5.keytab file",
+        "Active Directory"
       ],
       "certificaciones": [
         "eCPPTv3",
@@ -22,8 +23,7 @@
         "OSEP",
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Active Directory"
+        "OSWE"
       ],
       "writeup": "https://youtu.be/hFIWuWVIDek",
       "resuelta": true,
@@ -241,13 +241,13 @@
         "SeBackupPrivilege Exploitation",
         "DiskShadow",
         "Robocopy Usage",
-        "NTDS Credentials Extraction (secretsdump)"
+        "NTDS Credentials Extraction (secretsdump)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=0cPq2UV2vmg",
       "resuelta": true,
@@ -473,13 +473,13 @@
         "Pywerview Usage",
         "Abusing Unconstrained Delegation",
         "Abusing AllowedToDelegate Rights (getST.py) (User Impersonation)",
-        "Using .ccache file with wmiexec.py (KRB5CCNAME)"
+        "Using .ccache file with wmiexec.py (KRB5CCNAME)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=LI8wnTUc5-I",
       "resuelta": true,
@@ -564,13 +564,13 @@
         "BloodHound Enumeration",
         "DCSync Attack (secretsdump.py)",
         "DCSync Attack (Mimikatz)",
-        "PassTheHash (wmiexec.py)"
+        "PassTheHash (wmiexec.py)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=7W2h7qoCShk",
       "resuelta": true,
@@ -610,13 +610,13 @@
         "Joomla Exploitation [www-data] (Template Manipulation)",
         "Docker Breakout",
         "Ghidra Binary Analysis",
-        "Buffer Overflow (No ASLR - PIE enabled) [RET2LIBC] (Privilege Escalation)"
+        "Buffer Overflow (No ASLR - PIE enabled) [RET2LIBC] (Privilege Escalation)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "eWPT",
         "eCPPTv3",
-        "eCPTXv2",
-        "Buffer Overflow"
+        "eCPTXv2"
       ],
       "writeup": "https://www.youtube.com/watch?v=2ZzVu5mdzgA",
       "resuelta": true,
@@ -702,10 +702,10 @@
         "Unified Remote 3 Exploitation (RCE)",
         "Decrypt Mozilla protected passwords",
         "Reversing EXE in Ghidra",
-        "Buffer Overflow (Socket Reuse Technique) [AVANZADO]"
+        "Buffer Overflow (Socket Reuse Technique) [AVANZADO]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "Buffer Overflow",
         "OSED",
         "OSCP (Intrusión)",
         "eWPT",
@@ -749,14 +749,14 @@
         "BloodHound Enumeration",
         "Abusing ForceChangePassword with PowerView",
         "Abusing GenericWrite (Set-DomainObject - Setting Script Logon Path)",
-        "Abusing WriteOwner (Takeover Domain Admins Group)"
+        "Abusing WriteOwner (Takeover Domain Admins Group)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "OSWE",
-        "Active Directory"
+        "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=K8d2CmQAV9Q",
       "resuelta": true,
@@ -930,13 +930,13 @@
       "tecnicas": [
         "Database Enumeration (DBeaver)",
         "Bloodhound Enumeration (bloodhound-python)",
-        "Exploiting MS14-068 (goldenPac.py) [Microsoft Kerberos Checksum Validation Vulnerability]"
+        "Exploiting MS14-068 (goldenPac.py) [Microsoft Kerberos Checksum Validation Vulnerability]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=3p0myaukHBk",
       "resuelta": true,
@@ -1183,10 +1183,10 @@
       "tecnicas": [
         "Abusing Werkzeug Debugger (RCE)",
         "Binary Exploitation",
-        "Advanced Buffer Overflow x64 - ROP / ASLR Bypass (Leaking Libc Address + Ret2libc + Setuid)"
+        "Advanced Buffer Overflow x64 - ROP / ASLR Bypass (Leaking Libc Address + Ret2libc + Setuid)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "Buffer Overflow",
         "eWPT (Intrusión)"
       ],
       "writeup": "https://www.youtube.com/watch?v=8dLPT-imMYk",
@@ -1278,13 +1278,13 @@
         "Ghidra Binary Analysis",
         "Reversing Code (Computing valid PIN)",
         "Buffer Overflow (Controlling the program and manipulating its flow to desired functions)",
-        "Abusing Decryption Function (XOR Trick) [Privilege Escalation]"
+        "Abusing Decryption Function (XOR Trick) [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "OSWE",
         "eWPT",
-        "eWPTXv2",
-        "Buffer Overflow"
+        "eWPTXv2"
       ],
       "writeup": "https://www.youtube.com/watch?v=tEbBDlOFen0",
       "resuelta": true,
@@ -1400,11 +1400,11 @@
       "tecnicas": [
         "Abusing October CMS (Upload File Vulnerability)",
         "Buffer Overflow - Bypassing ASLR + Ret2libc (x32 bits)",
-        "Buffer Overflow - Ret2libc without ASLR (x32 bits EXTRA)"
+        "Buffer Overflow - Ret2libc without ASLR (x32 bits EXTRA)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "eWPT (Intrusión)",
-        "Buffer Overflow"
+        "eWPT (Intrusión)"
       ],
       "writeup": "https://www.youtube.com/watch?v=3QZfUBVr-AA",
       "resuelta": true,
@@ -1507,13 +1507,13 @@
         "Macro Inspection (Olevba2)",
         "MSSQL Hash Stealing [Net-NTLMv2] (xp_dirtree)",
         "Abusing MSSQL (xp_cmdshell)",
-        "Cached GPP Files (Privilege Escalation)"
+        "Cached GPP Files (Privilege Escalation)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=hfzYnjBzW_k",
       "resuelta": true,
@@ -1723,13 +1723,13 @@
         "Gaining access to Windows PowerShell Web Access",
         "Abusing ReadGMSAPassword privilege",
         "Abusing GenericAll privilege (Resetting a user's password)",
-        "Gaining access with wmiexec"
+        "Gaining access with wmiexec",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=vTsD0TSgdGg",
       "resuelta": true,
@@ -1853,7 +1853,8 @@
         "Requesting the TGT of the manipulated user",
         "Abusing Server Operators Group",
         "Abusing an existing service by manipulating its binPATH",
-        "We change the password of the administrator user after restarting the manipulated service"
+        "We change the password of the administrator user after restarting the manipulated service",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
@@ -1861,8 +1862,7 @@
         "eCPPTv3",
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Active Directory"
+        "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=z6nmcyk1Pbo",
       "resuelta": true,
@@ -2023,12 +2023,12 @@
       "dificultad": "Fácil",
       "tecnicas": [
         "Gym Management System Exploitation (RCE)",
-        "CloudMe Exploitation [Buffer Overflow] [OSCP Like] (Manual procedure) [Python Scripting]"
+        "CloudMe Exploitation [Buffer Overflow] [OSCP Like] (Manual procedure) [Python Scripting]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "OSCP",
-        "eCPPTv3",
-        "Buffer Overflow"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=TytUFooC3kU",
       "resuelta": true,
@@ -2192,11 +2192,10 @@
         "Buffer Overflow [x64] [ROP Attacks using PwnTools] [NX Bypass] [ASLR Bypass]",
         "Trying to hijack the argument to the system() function by loading our content in RDI [Way 1]",
         "Leaking puts and libc address to make a system call with the argument loaded in RDI [Way 2] [EXTRA]",
-        "Abusing keepass to obtain the root password [Privilege Escalation]"
-      ],
-      "certificaciones": [
+        "Abusing keepass to obtain the root password [Privilege Escalation]",
         "Buffer Overflow"
       ],
+      "certificaciones": [],
       "writeup": "https://www.youtube.com/watch?v=jvoiMos46IY",
       "resuelta": true,
       "descripcion": "Safe is an Easy difficulty Linux VM with a vulnerable service running on a port. The binary is found to be vulnerable to buffer overflow, which needs to be exploited through Return Oriented Programming (ROP) to get a shell. The user&amp;#039;s folder contain images and a keepass database which can be cracked using John the ripper to gain the root password."
@@ -2212,11 +2211,11 @@
         "XSS Injection - Stealing the admin user cookie",
         "Injection RCE",
         "Abusing Custom Binary - Binary Exploitation",
-        "Buffer Overflow [x64] [ROP Attacks using PwnTools] [NX Bypass] [ASLR Bypass] [Privilege Escalation]"
+        "Buffer Overflow [x64] [ROP Attacks using PwnTools] [NX Bypass] [ASLR Bypass] [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "eWPT",
-        "Buffer Overflow"
+        "eWPT"
       ],
       "writeup": "https://www.youtube.com/watch?v=prg88ajxAPc",
       "resuelta": true,
@@ -2487,13 +2486,13 @@
         "Abusing WriteOwner Active Directory Rights",
         "Playing with PowerView (Set-DomainObjectOwner, Add-DomainObjectAcl & Set-DomainUserPassword)",
         "Abusing WriteDacl Active Directory Rights",
-        "Information Leakage [Privilege Escalation]"
+        "Information Leakage [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=ai5_9H-wutw",
       "resuelta": true,
@@ -2552,10 +2551,10 @@
         "NFSv3 Privesc",
         "Abusing sudoers privilege (rvim command)",
         "Cracking RAR file",
-        "Crypto Challenge (Playing with RsaCtfTool to get the private key)"
+        "Crypto Challenge (Playing with RsaCtfTool to get the private key)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "Buffer Overflow",
         "OSCP (Escalada)"
       ],
       "writeup": "https://www.youtube.com/watch?v=lCrQLzE-CjI",
@@ -2617,11 +2616,11 @@
         "Achat 0.150 beta7 - Buffer Overflow (Windows 7 32 bits)",
         "Generating a Shellcode based on our needs + TIPS",
         "Icacls Abuse (Privilege Escalation)",
-        "PowerUp Enumeration (Alternative Privilege Escalation)"
+        "PowerUp Enumeration (Alternative Privilege Escalation)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "OSCP",
-        "Buffer Overflow"
+        "OSCP"
       ],
       "writeup": "https://www.youtube.com/watch?v=mQnwwu97f1g",
       "resuelta": true,
@@ -2718,7 +2717,8 @@
         "Firewall Bypassing (Playing with Test-NetConnection in PowerShell) - DNS Reverse Shell",
         "Authenticating to the DC shares - SYSVOL Enumeration",
         "Information Leakage - Domain Admin Password",
-        "PIVOTING 3 - Using Invoke-Command to execute commands on the Domain Controller (DC)"
+        "PIVOTING 3 - Using Invoke-Command to execute commands on the Domain Controller (DC)",
+        "Active Directory"
       ],
       "certificaciones": [
         "eWPT",
@@ -2727,8 +2727,7 @@
         "eCPTXv2",
         "OSWE",
         "OSCP",
-        "OSEP",
-        "Active Directory"
+        "OSEP"
       ],
       "writeup": "https://www.youtube.com/watch?v=O8-l2KNeRkM",
       "resuelta": true,
@@ -2744,13 +2743,13 @@
         "RPC Enumeration",
         "Credential Brute Force - CrackMapExec",
         "Shell Over WinRM",
-        "Abusing Azure Admins Group - Obtaining the administrator's password (Privilege Escalation)"
+        "Abusing Azure Admins Group - Obtaining the administrator's password (Privilege Escalation)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=-wQFA1zPqIc",
       "resuelta": true,
@@ -3058,11 +3057,11 @@
         "Installing the APK application and analyzing requests with Burpsuite",
         "Command Injection in one of the found requests [RCE]",
         "LinPeas Recon - Enumeration",
-        "Abusing Sudo Version 1.8.31 [Privilege Escalation]"
+        "Abusing Sudo Version 1.8.31 [Privilege Escalation]",
+        "Mobile"
       ],
       "certificaciones": [
-        "eWPT",
-        "Mobile"
+        "eWPT"
       ],
       "writeup": "https://www.youtube.com/watch?v=AWD2eDF1oiw",
       "resuelta": true,
@@ -3134,13 +3133,13 @@
         "Information Leakage",
         "LOLBAS",
         "Abusing DnsAdmins Group - dnscmd [Privilege Escalation]",
-        "Creating a malicious DLL and injecting it into the dns service"
+        "Creating a malicious DLL and injecting it into the dns service",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=h_brlhoSfy8",
       "resuelta": true,
@@ -3202,13 +3201,13 @@
         "Dump Hives && Get Hashes",
         "Cracking Hashes",
         "Password Reuse",
-        "Abusing Cron Job - BAT file [Privilege Escalation]"
+        "Abusing Cron Job - BAT file [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=ZYW-Cj1yjdQ",
       "resuelta": true,
@@ -3230,13 +3229,13 @@
         "AutoLogon Credentials",
         "BloodHound - SharpHound.ps1",
         "DCSync Attack - Secretsdump [Privilege Escalation]",
-        "PassTheHash"
+        "PassTheHash",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=zuMEHLnH_E0",
       "resuelta": true,
@@ -3309,7 +3308,7 @@
         "eWPT",
         "eWPTXv2",
         "eCPPTv3",
-        "eCPPTXv2",
+        "eCPTXv2",
         "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=0e91a_Pns2Q",
@@ -3353,13 +3352,13 @@
         "Cachet Framework Exploitation - SQLI",
         "Let's Chat Exploitation - Abusing API (Reading Private Messages)",
         "Cachet Framework Exploitation - Server Side Template Injection (SSTI) [RCE]",
-        "Abusing Cron Job [Privilege Escalation]"
+        "Abusing Cron Job [Privilege Escalation]",
+        "Mobile"
       ],
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Mobile"
+        "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=A6oVNwawRzM",
       "resuelta": true,
@@ -3445,7 +3444,8 @@
         "Attempting to obtain credentials with Rubeus (asktgt mode) [ERROR - No longer working]",
         "Exploiting CVE-2021-42278/CVE-2021-42287 (noPac.py) through Proxychains [Alternative Exploitation]",
         "Synchronizing our time with DC time (rdate) - Headers Information Leakage",
-        "Getting an interactive console as the administrator user on the DC (noPac.py)"
+        "Getting an interactive console as the administrator user on the DC (noPac.py)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP (Escalada)",
@@ -3453,8 +3453,7 @@
         "eWPT",
         "eWPTXv2",
         "OSWE",
-        "eCPTXv2",
-        "Active Directory"
+        "eCPTXv2"
       ],
       "writeup": "https://www.youtube.com/watch?v=oFBSn4iaLUo",
       "resuelta": true,
@@ -3557,11 +3556,11 @@
         "MongoDB Enumeration",
         "Mongo Task Injection - Command Injection [User Pivoting]",
         "SUID Backup Binary Exploitation - Dynamic Analysis (1st way)",
-        "SUID Backup Binary Exploitation - Buffer Overflow 32 bits [NX Bypass + ASLR / Ret2libc] (2nd way)"
+        "SUID Backup Binary Exploitation - Buffer Overflow 32 bits [NX Bypass + ASLR / Ret2libc] (2nd way)",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "eJPT (Intrusión)",
-        "Buffer Overflow"
+        "eJPT (Intrusión)"
       ],
       "writeup": "https://www.youtube.com/watch?v=0AzaHJZfqwE",
       "resuelta": true,
@@ -3817,13 +3816,13 @@
         "NTLM clients and services support NTLMv1",
         "Collecting Net-NTLMv1 Hash via Responder (1122334455667788 Challenge)",
         "Cracking Hashes (Net-NTLMv1) [crack.sh]",
-        "Secretsdump.py - Dumping the hashes for the rest of the AD users (Using the DRSUAPI method)"
+        "Secretsdump.py - Dumping the hashes for the rest of the AD users (Using the DRSUAPI method)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=hh0iNaaCv1I",
       "resuelta": true,
@@ -3857,10 +3856,10 @@
         "Buffer Overflow x64 - Full RELRO, NX, PIE, ASLR Bypass [ROP - Abusing a writable section]",
         "Creating an Autopwn Script [Python Scripting]",
         "Abusing System Services [User Pivoting]",
-        "Abusing binfmt_misc [Privilege Escalation]"
+        "Abusing binfmt_misc [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "Buffer Overflow",
         "OSCP (Escalada)"
       ],
       "writeup": "https://www.youtube.com/watch?v=ys-az6SyheE",
@@ -3949,13 +3948,13 @@
         "Cracking and reading .PFX File (crackpkcs12)",
         "Gaining SSL access with Evil-WinRM",
         "Information Leakage - Reading the user's Powershell history (User Pivoting)",
-        "Abusing LAPS to get passwords (Get-LAPSPasswords.ps1) [Privilege Escalation]"
+        "Abusing LAPS to get passwords (Get-LAPSPasswords.ps1) [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=NnlYSY83EsA",
       "resuelta": true,
@@ -4066,13 +4065,13 @@
         "Abusing Account Operators Group - Creating a new user",
         "Abusing Account Operators Group - Assigning a group to the newly created user",
         "Abusing WriteDacl in the domain - Granting DCSync Privileges",
-        "DCSync Exploitation - Secretsdump.py"
+        "DCSync Exploitation - Secretsdump.py",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=7G5wkoBpFWU",
       "resuelta": true,
@@ -4347,13 +4346,13 @@
         "Playing with Nishang to get a fully interactive console (Invoke-PowerShellTcpOneLine.ps1)",
         "Powershell filtering methods (EXTRA)",
         "Abusing StickyNotes - Viewing another user password",
-        "Abusing defined functions [Privilege Escalation]"
+        "Abusing defined functions [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=gr78zhxjC7I",
       "resuelta": true,
@@ -4404,7 +4403,7 @@
     {
       "id": 186,
       "nombre": "StreamIO",
-      "ip": "10.10.10.151",
+      "ip": "10.10.11.158",
       "so": "Windows",
       "dificultad": "Media",
       "tecnicas": [
@@ -4428,7 +4427,8 @@
         "Playing with SharpHound.ps1 - Puckiestyle",
         "Abusing WriteOwner privilege over a group - PowerView.ps1",
         "Playing with Add-DomainObjectAcl && Add-DomainGroupMember utilities",
-        "Getting LAPS Passwords - ldapsearch [Privilege Escalation]"
+        "Getting LAPS Passwords - ldapsearch [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "eWPT",
@@ -4436,8 +4436,7 @@
         "OSWE",
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=lP_ylWaw9eU",
       "resuelta": true,
@@ -4453,13 +4452,13 @@
         "SMB Enumeration",
         "Abusing GPP Passwords",
         "Decrypting GPP Passwords - gpp-decrypt",
-        "Kerberoasting Attack (GetUserSPNs.py) [Privilege Escalation]"
+        "Kerberoasting Attack (GetUserSPNs.py) [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=cDutnBcTQtM",
       "resuelta": true,
@@ -4477,11 +4476,11 @@
         "Playing with esoteric languages - Ook! and Brainfuck",
         "Cracking Zip Password Protected Files",
         "PlaySMS Exploitation - 'import.php' Remote Code Execution [RCE]",
-        "BufferOverflow 32 bits - Ret2libc [Privilege Escalation]"
+        "BufferOverflow 32 bits - Ret2libc [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "eWPT",
-        "Buffer Overflow"
+        "eWPT"
       ],
       "writeup": "https://www.youtube.com/watch?v=mL7ADmxL7ss",
       "resuelta": true
@@ -4645,13 +4644,13 @@
         "Installing DotPeek on a Windows virtual machine",
         "Reverse engineering the CBC cipher - Obtaining clear text passwords",
         "Abusing AD Recycle Bin Group - Active Directory Object Recovery (Get-ADObject) [Privilege Escalation]",
-        "EXTRA: Chisel Remote Port Forwarding (RDP + Remmina)"
+        "EXTRA: Chisel Remote Port Forwarding (RDP + Remmina)",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=utTEk0WNO04",
       "resuelta": true,
@@ -4733,14 +4732,14 @@
         "DLL Inspection with Dnspy - Found a backdoor in the code",
         "We realize that serialization and deserialization of data is being used",
         "Creating a malicious base64 serialized Payload with ysoserial.net in order to get RCE",
-        "We send the serialized data to the server [Privilege Escalation]"
+        "We send the serialized data to the server [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eWPTXv2 (Escalada)",
-        "Active Directory"
+        "eWPTXv2 (Escalada)"
       ],
       "writeup": "https://www.youtube.com/watch?v=osmFGqnFe8c",
       "resuelta": true,
@@ -5020,13 +5019,13 @@
         "Resource Based Constrained Delegation Attack - Creating a Computer Object (powermad.ps1)",
         "Resource Based Constrained Delegation Attack - PowerView.ps1",
         "Resource Based Constrained Delegation Attack - Getting the impersonated service ticket (getST.py)",
-        "Using the ticket to gain Administrator access [Privilege Escalation]"
+        "Using the ticket to gain Administrator access [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=AlrB-uBUuTA",
       "resuelta": true,
@@ -5046,13 +5045,13 @@
         "Getting the user's NTLM Hash with Rubeus",
         "Abusing WinRM - EvilWinRM",
         "Abusing WSUS Administrators Group",
-        "WSUS Exploitation - Creating a malicious patch for deployment [Privilege Escalation]"
+        "WSUS Exploitation - Creating a malicious patch for deployment [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=3xU66O-1pWU",
       "resuelta": true,
@@ -5424,13 +5423,13 @@
         "Enumerating domain users (rpcclient)",
         "Testing ASREPRoast attack (impacket-GetNPUsers)",
         "Fraudulent sending of eps file by mail through RoundCube",
-        "Abusing XAMPP for privilege escalation"
+        "Abusing XAMPP for privilege escalation",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=CecJxqA2WPo",
       "resuelta": true,
@@ -5458,7 +5457,7 @@
     {
       "id": 228,
       "nombre": "TwoMillion",
-      "ip": "10.10.10.11",
+      "ip": "10.10.11.221",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -5607,13 +5606,13 @@
         "Abusing WinRM to get an interactive console",
         "DC Enumeration (adPEAS) - Powershell tool to automate Active Directory enumeration",
         "Abusing Advice Directory Certificate Services (ADCS)",
-        "ESC7 exploitation case with certipy [Privilege Escalation]"
+        "ESC7 exploitation case with certipy [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
-        "eCPPTv3",
-        "Active Directory"
+        "eCPPTv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=6uzYhgtDPTM",
       "resuelta": true,
@@ -5663,7 +5662,8 @@
         "System enumeration with WinPeas",
         "Obtaining user credentials stored in the autologon registry",
         "Abusing Snort (Loading Dynamic Modules) [Privilege Escalation]",
-        "Creation of malicious DLL with msfvenom for loading into snort"
+        "Creation of malicious DLL with msfvenom for loading into snort",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
@@ -5671,8 +5671,7 @@
         "eCPPTv3",
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Active Directory"
+        "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=1X6Ak_IBDrM",
       "resuelta": true,
@@ -5897,14 +5896,14 @@
         "Abusing ExecuteDCOM Execution Right (impacket-dcomexec)",
         "RCE through the abuse of a DCOM object with impacket-dcomexec",
         "Remote Port Forwarding (Chisel)",
-        "OpenFire Exploitation (CVE-2023-32315) - Malicious plugin installation [Privilege Escalation]"
+        "OpenFire Exploitation (CVE-2023-32315) - Malicious plugin installation [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv2",
-        "Active Directory"
+        "eCPTXv2"
       ],
       "writeup": "https://www.youtube.com/watch?v=qpXPV6Ui5TU",
       "resuelta": true,
@@ -5967,14 +5966,14 @@
         "Cracking Hashes",
         "Find-InterestingDomainAcl PowerView Enumeration",
         "Abusing Logon Scripts (ScriptPath)",
-        "DCSync via Mimikatz (Getting the ntlm hash of the admin user) + Mimikatz [Privilege Escalation]"
+        "DCSync via Mimikatz (Getting the ntlm hash of the admin user) + Mimikatz [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=6TkEvRP6Jz0",
       "resuelta": true
@@ -6162,14 +6161,14 @@
         "Dumping Saved Passwords by Exploiting DPAPI and RPC (dpapi::cred)",
         "Abusing WinRM",
         "Abusing 'GPO Managers' group",
-        "SharpGPOAbuse.exe to assign us administrator privileges [Privilege Escalation]"
+        "SharpGPOAbuse.exe to assign us administrator privileges [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=2AnVkG7sQiY",
       "resuelta": true,
@@ -6329,14 +6328,14 @@
         "Information Leakage",
         "HTTP Docker Registry Enumeration (DockerRegistryGrabber)",
         "Django Serialization Exploitation (Creating a Malicious Session Cookie to Obtain RCE)",
-        "Container CAP_SYS_MODULE Capability Exploitation - Docker Breakout [Privilege Escalation]"
+        "Container CAP_SYS_MODULE Capability Exploitation - Docker Breakout [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
         "OSWE",
-        "OSED",
-        "Buffer Overflow"
+        "OSED"
       ],
       "writeup": "https://www.youtube.com/watch?v=qHgO2n4FFWQ",
       "resuelta": true,
@@ -6366,7 +6365,7 @@
     {
       "id": 266,
       "nombre": "Fuse",
-      "ip": "10.10.11.26",
+      "ip": "10.10.10.193",
       "so": "Windows",
       "dificultad": "Media",
       "tecnicas": [
@@ -6377,11 +6376,11 @@
         "Information Leakage through Printer Enumeration with rpcclient",
         "Abusing SeLoadDriverPrivilege",
         "Loading a Vulnerable Driver for Further Exploitation (EoPLoadDriver & Capcom.sys)",
-        "Driver Exploitation (ExploitCapcom) [Privilege Escalation]"
+        "Driver Exploitation (ExploitCapcom) [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
-        "OSCP",
-        "Active Directory"
+        "OSCP"
       ],
       "writeup": "https://www.youtube.com/watch?v=ujcfgUztTYU",
       "resuelta": true,
@@ -6390,7 +6389,7 @@
     {
       "id": 267,
       "nombre": "Cicada",
-      "ip": "10.10.11.26",
+      "ip": "10.10.11.35",
       "so": "Windows",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -6398,11 +6397,11 @@
         "Information Leakage",
         "RID Brute with Netexec for Potential User Discovery",
         "Information Leakage through Rpcclient (querydispinfo)",
-        "Abusing SeBackupPrivilege/SeRestorePrivilege [Privilege Escalation]"
+        "Abusing SeBackupPrivilege/SeRestorePrivilege [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
-        "OSCP",
-        "Active Directory"
+        "OSCP"
       ],
       "writeup": "https://www.youtube.com/watch?v=lBWOvgu_ayw",
       "resuelta": true,
@@ -6588,7 +6587,7 @@
     {
       "id": 275,
       "nombre": "Interface",
-      "ip": "10.10.11.195",
+      "ip": "10.10.11.200",
       "so": "Linux",
       "dificultad": "Media",
       "tecnicas": [
@@ -6757,7 +6756,7 @@
     {
       "id": 282,
       "nombre": "Axlle",
-      "ip": "10.10.11.3",
+      "ip": "",
       "so": "Windows",
       "dificultad": "Difícil",
       "tecnicas": [
@@ -6773,14 +6772,14 @@
         "Analyzing the Results Obtained with Bloodhound and Neo4j",
         "Abusing ForceChangePassword Rights",
         "Updating a User's Password via PowerView",
-        "Abusing Windows Driver Kit (WDK) StandaloneRunner.exe [Privilege Escalation]"
+        "Abusing Windows Driver Kit (WDK) StandaloneRunner.exe [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=ftkzWW4kEWE",
       "resuelta": true,
@@ -6824,7 +6823,8 @@
         "Configuring the Target Object to Allow Attacker-Controlled Delegation with rbcd.py",
         "Obtaining a Service Ticket to Impersonate an Admin Using Impacket’s getST.py",
         "Performing Pass-the-Ticket to Retrieve the Administrator's NTLM Hash Using secretsdump.py",
-        "Connecting to the Target Machine with evil-winrm Using PasstheHash [Privilege Escalation]"
+        "Connecting to the Target Machine with evil-winrm Using PasstheHash [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
@@ -6833,8 +6833,7 @@
         "eCPTXv3",
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Active Directory"
+        "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=kIEVAbtWJWI",
       "resuelta": true,
@@ -6881,14 +6880,14 @@
         "PassTheTicket + Obtaining NT hash of the user (getnthash.py) [2nd User]",
         "Listing vulnerabilities in existing certificate templates (certipy)",
         "Abusing ADCS (User Can Enroll and Template Has No Security Extension) - ESC9",
-        "ESC9 [Privilege Escalation]"
+        "ESC9 [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=RW58bxOKfTQ",
       "resuelta": true,
@@ -6995,7 +6994,7 @@
     {
       "id": 290,
       "nombre": "Sneaky",
-      "ip": "10.10.10.197",
+      "ip": "10.10.10.20",
       "so": "Linux",
       "dificultad": "Media",
       "tecnicas": [
@@ -7009,11 +7008,11 @@
         "Nmap IPV6 Scan",
         "SSH Connection via IPV6",
         "Binary Static Analysis [GHIDRA]",
-        "Buffer Overflow Exploitation (x32 bits - No ASLR/NX) [Privilege Escalation]"
+        "Buffer Overflow Exploitation (x32 bits - No ASLR/NX) [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "OSED",
-        "Buffer Overflow"
+        "OSED"
       ],
       "writeup": "https://www.youtube.com/watch?v=p4dJD_R4ZKM",
       "resuelta": true,
@@ -7022,7 +7021,7 @@
     {
       "id": 291,
       "nombre": "Popcorn",
-      "ip": "10.10.10.197",
+      "ip": "10.10.10.6",
       "so": "Linux",
       "dificultad": "Media",
       "tecnicas": [
@@ -7124,7 +7123,7 @@
     {
       "id": 296,
       "nombre": "Luanne",
-      "ip": "10.10.10.146",
+      "ip": "10.10.10.218",
       "so": "Otro",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -7188,14 +7187,14 @@
         "Cracking Hashes",
         "Opening the PSafe3 file with Password Safe and Viewing User Credentials",
         "Abusing GenericWrite Right (targetedKerberoast.py) + Cracking Hashes",
-        "Abusing GetChanges/GetChangesAll Privilege (dcsync Attack - secretsdump.py) [Privilege Escalation]"
+        "Abusing GetChanges/GetChangesAll Privilege (dcsync Attack - secretsdump.py) [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=TaYC6_5A9AU",
       "resuelta": true,
@@ -7204,7 +7203,7 @@
     {
       "id": 299,
       "nombre": "Cat",
-      "ip": "10.10.11.42",
+      "ip": "",
       "so": "Linux",
       "dificultad": "Media",
       "tecnicas": [
@@ -7221,7 +7220,7 @@
       ],
       "certificaciones": [
         "eWPT",
-        "eWPTX",
+        "eWPTXv2",
         "OSWE"
       ],
       "writeup": "https://www.youtube.com/watch?v=aQtrcfWe_wI",
@@ -7231,7 +7230,7 @@
     {
       "id": 300,
       "nombre": "Dog",
-      "ip": "10.10.11.42",
+      "ip": "",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -7311,14 +7310,14 @@
         "Changing User Properties with ldapmodify + Enabling a Disabled Account",
         "Information Leakage",
         "Abusing DPAPI (Extracting Passwords Stored in the System via impacket-dpapi)",
-        "DCSync + Extracting the NTDS to view the NT Hash of the Administrator User [Privilege Escalation]"
+        "DCSync + Extracting the NTDS to view the NT Hash of the Administrator User [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=8Hm0RGoXYPA",
       "resuelta": true,
@@ -7327,7 +7326,7 @@
     {
       "id": 304,
       "nombre": "BabyTwo",
-      "ip": "1.0129194134E10",
+      "ip": "10.129.194.134",
       "so": "Windows",
       "dificultad": "Media",
       "tecnicas": [
@@ -7337,14 +7336,14 @@
         "BloodHound Enumeration (BloodHound-CE Docker)",
         "Creating Malicious VBS File",
         "Abusing WriteOwner && WriteDacl Rights (PowerView.ps1)",
-        "Abusing GenericAll Right + GPO Exploitation (pyGPOAbuse) [Privilege Escalation]"
+        "Abusing GenericAll Right + GPO Exploitation (pyGPOAbuse) [Privilege Escalation]",
+        "Active Directory"
       ],
       "certificaciones": [
         "OSCP",
         "OSEP",
         "eCPPTv3",
-        "eCPTXv3",
-        "Active Directory"
+        "eCPTXv3"
       ],
       "writeup": "https://www.youtube.com/watch?v=vR8SUg4E6bc",
       "resuelta": true,
@@ -7353,7 +7352,7 @@
     {
       "id": 305,
       "nombre": "Reset",
-      "ip": "10.10.11.64",
+      "ip": "",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -7522,7 +7521,7 @@
     },
     {
       "id": 312,
-      "nombre": "Fulcurm",
+      "nombre": "Fulcrum",
       "ip": "",
       "so": "Linux",
       "dificultad": "Fácil",
@@ -7577,17 +7576,6 @@
       "resuelta": false
     },
     {
-      "id": 316,
-      "nombre": "Solid State",
-      "ip": "",
-      "so": "Linux",
-      "dificultad": "Media",
-      "tecnicas": [],
-      "certificaciones": [],
-      "writeup": "https://www.hackingarticles.in/hack-the-box-challenge-solid-state-walkthrough/",
-      "resuelta": false
-    },
-    {
       "id": 317,
       "nombre": "Sunday",
       "ip": "",
@@ -7636,7 +7624,7 @@
       "id": 319,
       "nombre": "Ypuffy",
       "ip": "",
-      "so": "Others",
+      "so": "Otro",
       "dificultad": "Media",
       "tecnicas": [
         "Network Enumeration with Nmap",
@@ -7772,17 +7760,6 @@
       "writeup": "https://www.hackingarticles.in/hack-the-box-writeup-walkthrough/",
       "resuelta": false,
       "descripcion": "Writeup is an easy difficulty Linux box with DoS protection in place to prevent brute forcing. A CMS susceptible to a SQL injection vulnerability is found, which is leveraged to gain user credentials. The user is found to be in a non-default group, which has write access to part of the PATH. A path hijacking results in escalation of privileges to root."
-    },
-    {
-      "id": 325,
-      "nombre": "Open Admin Box",
-      "ip": "",
-      "so": "Linux",
-      "dificultad": "Fácil",
-      "tecnicas": [],
-      "certificaciones": [],
-      "writeup": "https://www.hackingarticles.in/hack-the-box-open-admin-box-walkthrough/",
-      "resuelta": false
     },
     {
       "id": 326,
@@ -12116,7 +12093,7 @@
     {
       "id": 518,
       "nombre": "OpenAdmin",
-      "ip": "",
+      "ip": "10.10.10.171",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -12140,8 +12117,8 @@
         "Linux Fundamentals"
       ],
       "certificaciones": [],
-      "writeup": "",
-      "resuelta": false,
+      "writeup": "https://www.hackingarticles.in/hack-the-box-open-admin-box-walkthrough/",
+      "resuelta": true,
       "descripcion": "OpenAdmin is an easy difficulty Linux machine that features an outdated OpenNetAdmin CMS instance. The CMS is exploited to gain a foothold, and subsequent enumeration reveals database credentials. These credentials are reused to move laterally to a low privileged user. This user is found to have access to a restricted internal application. Examination of this application reveals credentials that are used to move laterally to a second user. A sudo misconfiguration is then exploited to gain a root shell."
     },
     {
@@ -12791,13 +12768,13 @@
         "SQLI (SQL Injection) [Boolean Based Blind] + Python Scripting [Manual]",
         "Abusing Image Upload Form [RCE] + WAF Bypass",
         "Custom Binary Exploitation - Ghidra Anlysis",
-        "Custom Binary Exploitation - Buffer Overflow x32 bits (ret2reg technique) [Privilege Escalation]"
+        "Custom Binary Exploitation - Buffer Overflow x32 bits (ret2reg technique) [Privilege Escalation]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
-        "OSWE",
-        "Buffer Overflow"
+        "OSWE"
       ],
       "enlace": "https://www.vulnhub.com/entry/imf-1,162/",
       "writeup": "https://www.youtube.com/watch?v=kpdDTkRzYbw",
@@ -12978,7 +12955,7 @@
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
-        "eCPPT",
+        "eCPPTv2",
         "eCPTXv2",
         "OSWE"
       ],
@@ -13065,11 +13042,11 @@
         "FTP Enumeration",
         "Information Leakage",
         "OpenEMR 5.0.1.3 - Remote Code Execution (Authenticated)",
-        "Buffer Overflow x32 - Stack based [Linux x86 shellcode - execve(\"/bin/bash\", [\"/bin/bash\", \"-p\"], NULL) - 33 bytes]"
+        "Buffer Overflow x32 - Stack based [Linux x86 shellcode - execve(\"/bin/bash\", [\"/bin/bash\", \"-p\"], NULL) - 33 bytes]",
+        "Buffer Overflow"
       ],
       "certificaciones": [
-        "eWPT",
-        "Buffer Overflow"
+        "eWPT"
       ],
       "enlace": "https://www.vulnhub.com/entry/buffemr-101,717/",
       "writeup": "https://www.youtube.com/watch?v=LxYMz6wvfWU",
@@ -13268,12 +13245,12 @@
         "EXTRA: Eternalblue (MS17-010) Exploitation in order to gain access to the Dumbledore-PC machine",
         "EXTRA: Uploading Chisel to the Windows machine",
         "EXTRA: Creating a new SOCKS5 connection to gain access to the Matrix 1 machine (Triple SOCKS5 Proxy)",
-        "EXTRA: Host discovery from Windows MSDOS + ARP command"
+        "EXTRA: Host discovery from Windows MSDOS + ARP command",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "eCPPTv2",
-        "eCPTXv2",
-        "Buffer Overflow"
+        "eCPTXv2"
       ],
       "enlace": "https://www.vulnhub.com/entry/harrypotter-fawkes,686/",
       "writeup": "https://www.youtube.com/watch?v=Q7UeWILja-g",
@@ -13311,12 +13288,12 @@
         "Web Enumeration - BurpSuite Intruder Attack (Due to certain timeout problems using multiple proxies)",
         "EXE Binary Analysis - Immunity Debugger [Buffer Overflow x32 Stack Based]",
         "EXTRA: Playing with netsh to control connection flow in Windows",
-        "EXTRA: Reverse shell going through 4 machines using 4 SOCKS proxies"
+        "EXTRA: Reverse shell going through 4 machines using 4 SOCKS proxies",
+        "Buffer Overflow"
       ],
       "certificaciones": [
         "eCPPTv2",
-        "eCPTXv2",
-        "Buffer Overflow"
+        "eCPTXv2"
       ],
       "enlace": "https://www.vulnhub.com/entry/brainpan-1,51/",
       "writeup": "https://www.youtube.com/watch?v=Q7UeWILja-g",
@@ -13766,7 +13743,7 @@
         "eWPTXv2",
         "OSCP"
       ],
-      "enlace": "https://cloud.caerdydd.wales/index.php/s/dxo7t46rwCGoMMr",
+      "enlace": "https://www.vulnhub.com/?q=presidential",
       "writeup": "https://www.youtube.com/watch?v=wT4vJRzwxYk",
       "resuelta": true
     },
@@ -13810,7 +13787,7 @@
     },
     {
       "id": 45,
-      "nombre": "HackNos: Player\nV1.1",
+      "nombre": "HackNos: Player V1.1",
       "so": "Linux",
       "dificultad": "Media",
       "tecnicas": [
@@ -13934,7 +13911,7 @@
       ],
       "certificaciones": [
         "eWPT",
-        "OSCP [Escalada]"
+        "OSCP (Escalada)"
       ],
       "enlace": "https://www.vulnhub.com/entry/wayne-manor-1,681/",
       "writeup": "https://www.youtube.com/watch?v=q7VpXo2Pkzk",
@@ -13942,7 +13919,7 @@
     },
     {
       "id": 50,
-      "nombre": "BoredHackerBlog\nCloud AV",
+      "nombre": "BoredHackerBlog Cloud AV",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -13964,7 +13941,7 @@
     },
     {
       "id": 51,
-      "nombre": "Cheesey\nCheeseyJack",
+      "nombre": "Cheesey CheeseyJack",
       "so": "Linux",
       "dificultad": "Fácil",
       "tecnicas": [
@@ -14216,9 +14193,6 @@
           "url": "https://portswigger.net/web-security/sql-injection/lab-sql-injection-with-filter-bypass-via-xml-encoding"
         }
       ],
-      "writeups": [
-        "https://www.youtube.com/watch?v=C-FiImhUviM"
-      ],
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
@@ -14283,9 +14257,6 @@
           "url": "https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload"
         }
       ],
-      "writeups": [
-        "https://www.youtube.com/watch?v=UfILDa_qStQ"
-      ],
       "certificaciones": [
         "eWPT",
         "eWPTXv2",
@@ -14333,9 +14304,6 @@
           "url": "https://portswigger.net/web-security/file-path-traversal/lab-validate-file-extension-null-byte-bypass"
         }
       ],
-      "writeups": [
-        "https://www.youtube.com/watch?v=64XIkIyCIRo"
-      ],
       "certificaciones": [
         "eWPT"
       ],
@@ -14382,9 +14350,6 @@
           "nombre": "Blind SSRF with Shellshock exploitation",
           "url": "https://portswigger.net/web-security/ssrf/blind/lab-shellshock-exploitation"
         }
-      ],
-      "writeups": [
-        "https://www.youtube.com/watch?v=xQ2rivaFcsE"
       ],
       "certificaciones": [
         "eWPT",
