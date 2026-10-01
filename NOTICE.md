@@ -12,7 +12,8 @@ referencia.
 La licencia CC BY-NC-SA 4.0 se aplica a la **obra original de Jesús Yeste
 Ramírez** contenida en este repositorio, en concreto:
 
-- El código de la aplicación (`index.html`: estructura, estilos y lógica).
+- El código de la aplicación (`index.html`, `styles.css` y `app.js`: estructura,
+  estilos y lógica).
 - La selección, organización y estructura del planificador: el diseño del
   roadmap, la agrupación por certificaciones, los campos de cada ficha y la
   forma en que el conjunto está ordenado y presentado.
@@ -39,9 +40,9 @@ copia, no reproduce ni redistribuye** ese contenido: solo enlaza a él. Los
 derechos pertenecen íntegramente a sus autores.
 
 - **S4vitar** — resoluciones en vídeo publicadas en su canal público de
-  YouTube, origen de la mayor parte de los 305 enlaces a vídeo de este
+  YouTube, origen de la mayor parte de los 385 enlaces a vídeo de este
   repositorio.
-- **Hacking Articles** — 30 fichas enlazan a sus artículos en
+- **Hacking Articles** — 29 fichas enlazan a sus artículos en
   `hackingarticles.in`.
 
 El agradecimiento a ambos es explícito: sin su trabajo divulgativo este

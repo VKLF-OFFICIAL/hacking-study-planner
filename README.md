@@ -4,16 +4,46 @@
 
 Planner de estudio de ciberseguridad — Roadmap eJPT · LionXSecurity
 
-Aplicación web de un solo archivo para organizar la preparación de
-certificaciones de seguridad ofensiva. Reúne 534 máquinas de Hack The Box, 18
-retos, 58 de VulnHub y los laboratorios de PortSwigger, cada uno con su
-sistema operativo, dificultad, técnicas implicadas, certificaciones para las
-que resulta relevante y un enlace a su resolución.
+Aplicación web estática para organizar la preparación de la certificación
+**eJPT**. Muestra las máquinas de Hack The Box y VulnHub recomendadas para el
+eJPT, cada una con su sistema operativo, dificultad, técnicas implicadas,
+certificaciones para las que resulta relevante y un enlace a su resolución,
+y un roadmap paso a paso «De Cero a Junior Pentester».
+
+`data.json` reúne la base completa de la que sale esa selección: 532 máquinas
+de Hack The Box, 18 retos, 58 máquinas de VulnHub y laboratorios de
+PortSwigger. La app filtra las que llevan la etiqueta eJPT.
+
+El progreso (máquinas resueltas y etapas del roadmap) se guarda solo en el
+navegador, con `localStorage`: no sale de tu equipo ni se comparte entre
+dispositivos.
 
 ## Uso
 
-Abre `index.html` en el navegador. No necesita servidor ni instalación: los
-datos viven en `data.json`, junto al HTML.
+Versión publicada: <https://vklf-official.github.io/hacking-study-planner/>
+
+En local hace falta un servidor estático, porque los navegadores no dejan leer
+`data.json` cuando la página se abre como archivo (`file://`). Desde la carpeta
+del proyecto:
+
+```sh
+python3 -m http.server
+```
+
+y abre <http://localhost:8000>.
+
+## Estructura
+
+| Archivo      | Contenido                                                        |
+|--------------|------------------------------------------------------------------|
+| `index.html` | Esqueleto de la página y política de seguridad de contenido (CSP) |
+| `styles.css` | Estilos y diseño responsive                                       |
+| `app.js`     | Lógica de la aplicación y datos del roadmap                       |
+| `data.json`  | Fichas de máquinas, retos y laboratorios                          |
+
+La página no carga nada de terceros salvo las portadas de los cursos del
+roadmap (`lionxsecurity.es`); si no cargan, se ocultan. La CSP solo permite
+scripts y estilos del propio sitio.
 
 ## Licencia
 
